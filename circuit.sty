@@ -140,9 +140,143 @@
 		% middle point
 		\p4 = ($0.5*(\p1)+0.5*(\p2)$),
 		% shift 
-		\p5 = ($(\p4) + (0.4*\x3/\n1*\terminal, 0.4*\y3/\n1*\terminal) + (-0.55*\y3/\n1*\side, 0.55*\x3/\n1*\side)$),
-		\p6 = ($(\p4) + (-0.4*\x3/\n1*\terminal, -0.4*\y3/\n1*\terminal) + (-0.55*\y3/\n1*\side, 0.55*\x3/\n1*\side)$),
-		\p7 = ($(\p4) + (-0.85*\y3/\n1*\side, 0.85*\x3/\n1*\side)$)
+		\p5 = ($(\p4) + (0.4*\x3/\n1*\terminal, 0.4*\y3/\n1*\terminal) + (-0.65*\y3/\n1*\side, 0.65*\x3/\n1*\side)$),
+		\p6 = ($(\p4) + (-0.4*\x3/\n1*\terminal, -0.4*\y3/\n1*\terminal) + (-0.65*\y3/\n1*\side, 0.65*\x3/\n1*\side)$),
+		\p7 = ($(\p4) + (-0.95*\y3/\n1*\side, 0.95*\x3/\n1*\side)$)
+  		  in 
+       \IfNoValueTF{#3}{(\p5) -- (\p6)}{(\p5) -- (\p6) node at (\p7) [] {#2}};  % memo: \StrBehind{#2}{=} if you want to remove everithing before '='
+}
+
+%----------------------------
+% controlled voltage source
+%----------------------------
+\NewDocumentCommand{\cVoltageSource}{O{side1, terminal1} o m m}{
+	% ----------------------------------------------------------------
+    % \CVoltageSource[side,terminal][<circuitikz options>]{<start>}{<end>}
+    %
+    % Draws a controlled voltage source between two points, with a
+    % correctly placed "+" sign indicating polarity.
+    %
+    % Arguments:
+    % - Optional [side, terminal] (default: side1, terminal1):
+    %     * "side1" or "side2" determines which side of the component the "+" sign appears on
+    %     * "terminal1" or "terminal2" determines which terminal is considered positive
+    % - Optional [<circuitikz options>]:
+    %     * Any additional circuitikz options to pass to the voltage source (e.g., l=$E$, invert, color)
+    % - Mandatory {<start>}, {<end>}:
+    %     * Coordinate pairs **without parentheses**, e.g., {0,0} and {0,2}
+    %
+    % How it works:
+    % - The macro uses TikZ coordinate math to compute the direction and midpoint
+    %   of the voltage source.
+    % - The "+" sign is offset:
+    %     * Along the component (toward terminal1 or terminal2)
+    %     * Orthogonally (toward side1 or side2)
+    % - The sign is rotated to match the component’s orientation
+    %
+    % Example usage:
+    % \cVoltageSource{0,0}{0,2}                            % default: side1, terminal1
+    % \cVoltageSource[side2, terminal2]{0,0}{0,2}          % flip polarity and side
+    % \cVoltageSource[side2, terminal1][l=$E$]{0,0}{2,1}   % with label and direction
+    %
+    % Notes:
+    % - The "+" sign rotates and positions itself automatically
+    % - The component length is normalized for consistent placement
+    % - Coordinates must be passed without parentheses
+    %
+    % Author: Luca Giaccone (luca.giaccone@polito.it)
+    % Date: 04.08.2025
+    % ----------------------------------------------------------------
+
+	
+    % handle position of the plus sign
+    \IfSubStr{#1}{side2}{\def\side{-1}}{\def\side{1}}
+    \IfSubStr{#1}{terminal2}{\def\terminal{-1}}{\def\terminal{1}}
+	
+	% get coordinates
+	\coordinate (vstart) at (#3);
+  	\coordinate (vend) at (#4);
+
+	% put the voltage source with or without optional parameters
+	\IfNoValueTF{#2}{\draw (vstart) to[cV] (vend);}{\draw (vstart) to[cV, #2] (vend);}
+
+  	% draw the plus sign
+  	\path let
+		\p1 = (vstart),
+		\p2 = (vend),
+		\p3 = ($(\p2)-(\p1)$),          % direction vector
+		\n1 = {veclen(\x3,\y3)/28.45},  % length of the vector (in cm)
+		\n2 = {atan2(\y3,\x3)},         % angle of the component
+		% middle point
+		\p4 = ($0.5*(\p1)+0.5*(\p2)$),
+		% shift 
+		\p5 = ($(\p4) + (-0.55*\x3/\n1*\terminal, -0.55*\y3/\n1*\terminal) + (-0.35*\y3/\n1*\side, 0.35*\x3/\n1*\side)$)
+  		  in
+    	node at (\p5) [rotate=\n2] {$+$};
+}
+
+%----------------------------
+% controlled current source
+%----------------------------
+\NewDocumentCommand{\cCurrentSource}{O{side1, terminal1} o o m m}{
+	% ----------------------------------------------------------------
+    % \cCurrentSource[side, terminal, label position][<circuitikz options>]{<start>}{<end>}
+    %
+    % Draws an independent current source with a curved arrow indicating direction,
+    % and a user-defined label placed near the arrow.
+    %
+    % Arguments:
+    % - Optional [side, terminal, label position] (default: side1, terminal1, left):
+    %     * "side1" or "side2" determines which side of the component the arrow and label appear on
+    %     * "terminal1" or "terminal2" controls the arrow direction (positive flow)
+    % - Optional [<circuitikz options>]:
+    %     * Any circuitikz options for the component (e.g. i>^=$I$)
+    % - Mandatory {<start>}, {<end>}:
+    %     * Coordinate pairs **without parentheses**, e.g., {0,0} and {2,1}
+    %
+    % How it works:
+    % - The macro places a circuitikz current source (I) between the given coordinates
+    % - It draws an arrow to indicate current flow, oriented by "terminal1"/"terminal2"
+    % - The arrow and label are offset orthogonally using normalized geometry
+    % - The label content is the first optional parameter (#2), and is placed relative to the arrow tip
+    %
+    % Example usage:
+    % \cCurrentSource{0,0}{0,2}                                      % default: side1, terminal1, left
+    % \cCurrentSource[side2,terminal2][i>^=$I$]{0,0}{2,1}            % flipped polarity and label on right
+    %
+    % Notes:
+    % - The direction vector is scaled by the component length
+    % - The arrow is drawn manually using TikZ, not by circuitikz
+    % - Coordinates must be passed without parentheses
+    %
+    % Author: Luca Giaccone (luca.giaccone@polito.it)
+    % Date: 04.08.2025
+    % ----------------------------------------------------------------
+
+	
+    % handle optional parameters
+    \IfSubStr{#1}{side2}{\def\side{-1}}{\def\side{1}}
+    \IfSubStr{#1}{terminal2}{\def\terminal{-1}}{\def\terminal{1}}
+	
+	% get coordinates
+	\coordinate (vstart) at (#4);
+  	\coordinate (vend) at (#5);
+
+	% put the voltage source with or withour optional parameters
+	\IfNoValueTF{#3}{\draw (vstart) to[cI] (vend);}{\draw (vstart) to[cI,#3] (vend);}
+
+  	% draw arrow and the label
+  	\draw[-{Triangle[width=4.5pt, length=5pt]}] let
+		\p1 = (vstart),
+		\p2 = (vend),
+		\p3 = ($(\p2)-(\p1)$),          % direction vector
+		\n1 = {veclen(\x3,\y3)/28.45},  % length of the vector (in cm)
+		% middle point
+		\p4 = ($0.5*(\p1)+0.5*(\p2)$),
+		% shift 
+		\p5 = ($(\p4) + (0.4*\x3/\n1*\terminal, 0.4*\y3/\n1*\terminal) + (-0.65*\y3/\n1*\side, 0.65*\x3/\n1*\side)$),
+		\p6 = ($(\p4) + (-0.4*\x3/\n1*\terminal, -0.4*\y3/\n1*\terminal) + (-0.65*\y3/\n1*\side, 0.65*\x3/\n1*\side)$),
+		\p7 = ($(\p4) + (-0.95*\y3/\n1*\side, 0.95*\x3/\n1*\side)$)
   		  in 
        \IfNoValueTF{#3}{(\p5) -- (\p6)}{(\p5) -- (\p6) node at (\p7) [] {#2}};  % memo: \StrBehind{#2}{=} if you want to remove everithing before '='
 }
