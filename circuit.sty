@@ -1,0 +1,703 @@
+\ProvidesPackage{circuit}[2025/07/28 circuit 0.01]
+% this package provide macros based on circuitikz plus
+% some default settings (e.g. label/align = straight, straight voltages)
+
+% required packages
+\RequirePackage{circuitikz}
+\RequirePackage{xstring}
+
+% common settings
+\usetikzlibrary{decorations.pathmorphing}
+\ctikzset{label/align = straight, straight voltages}
+
+%----------------------------
+% independent voltage source
+%----------------------------
+\NewDocumentCommand{\VoltageSource}{O{side1, terminal1} o m m}{
+	% ----------------------------------------------------------------
+    % \VoltageSource[side,terminal][<circuitikz options>]{<start>}{<end>}
+    %
+    % Draws an independent voltage source between two points, with a
+    % correctly placed "+" sign indicating polarity.
+    %
+    % Arguments:
+    % - Optional [side, terminal] (default: side1, terminal1):
+    %     * "side1" or "side2" determines which side of the component the "+" sign appears on
+    %     * "terminal1" or "terminal2" determines which terminal is considered positive
+    % - Optional [<circuitikz options>]:
+    %     * Any additional circuitikz options to pass to the voltage source (e.g., l=$E$, invert, color)
+    % - Mandatory {<start>}, {<end>}:
+    %     * Coordinate pairs **without parentheses**, e.g., {0,0} and {0,2}
+    %
+    % How it works:
+    % - The macro uses TikZ coordinate math to compute the direction and midpoint
+    %   of the voltage source.
+    % - The "+" sign is offset:
+    %     * Along the component (toward terminal1 or terminal2)
+    %     * Orthogonally (toward side1 or side2)
+    % - The sign is rotated to match the component’s orientation
+    %
+    % Example usage:
+    % \VoltageSource{0,0}{0,2}                            % default: side1, terminal1
+    % \VoltageSource[side2, terminal2]{0,0}{0,2}          % flip polarity and side
+    % \VoltageSource[side2, terminal1][l=$E$]{0,0}{2,1}   % with label and direction
+    %
+    % Notes:
+    % - The "+" sign rotates and positions itself automatically
+    % - The component length is normalized for consistent placement
+    % - Coordinates must be passed without parentheses
+    %
+    % Author: Luca Giaccone (luca.giaccone@polito.it)
+    % Date: 29.07.2025
+    % ----------------------------------------------------------------
+
+	
+    % handle position of the plus sign
+    \IfSubStr{#1}{side2}{\def\side{-1}}{\def\side{1}}
+    \IfSubStr{#1}{terminal2}{\def\terminal{-1}}{\def\terminal{1}}
+	
+	% get coordinates
+	\coordinate (vstart) at (#3);
+  	\coordinate (vend) at (#4);
+
+	% put the voltage source with or without optional parameters
+	\IfNoValueTF{#2}{\draw (vstart) to[V] (vend);}{\draw (vstart) to[V, #2] (vend);}
+
+  	% draw the plus sign
+  	\path let
+		\p1 = (vstart),
+		\p2 = (vend),
+		\p3 = ($(\p2)-(\p1)$),          % direction vector
+		\n1 = {veclen(\x3,\y3)/28.45},  % length of the vector (in cm)
+		\n2 = {atan2(\y3,\x3)},         % angle of the component
+		% middle point
+		\p4 = ($0.5*(\p1)+0.5*(\p2)$),
+		% shift 
+		\p5 = ($(\p4) + (-0.55*\x3/\n1*\terminal, -0.55*\y3/\n1*\terminal) + (-0.35*\y3/\n1*\side, 0.35*\x3/\n1*\side)$)
+  		  in
+    	node at (\p5) [rotate=\n2] {$+$};
+}
+
+%----------------------------
+% independent current source
+%----------------------------
+\NewDocumentCommand{\CurrentSource}{O{side1, terminal1} o o m m}{
+	% ----------------------------------------------------------------
+    % \CurrentSource[side, terminal, label position][<circuitikz options>]{<start>}{<end>}
+    %
+    % Draws an independent current source with a curved arrow indicating direction,
+    % and a user-defined label placed near the arrow.
+    %
+    % Arguments:
+    % - Optional [side, terminal, label position] (default: side1, terminal1, left):
+    %     * "side1" or "side2" determines which side of the component the arrow and label appear on
+    %     * "terminal1" or "terminal2" controls the arrow direction (positive flow)
+    % - Optional [<circuitikz options>]:
+    %     * Any circuitikz options for the component (e.g. i>^=$I$)
+    % - Mandatory {<start>}, {<end>}:
+    %     * Coordinate pairs **without parentheses**, e.g., {0,0} and {2,1}
+    %
+    % How it works:
+    % - The macro places a circuitikz current source (I) between the given coordinates
+    % - It draws an arrow to indicate current flow, oriented by "terminal1"/"terminal2"
+    % - The arrow and label are offset orthogonally using normalized geometry
+    % - The label content is the first optional parameter (#2), and is placed relative to the arrow tip
+    %
+    % Example usage:
+    % \CurrentSource{0,0}{0,2}                                      % default: side1, terminal1, left
+    % \CurrentSource[side2,terminal2][i>^=$I$]{0,0}{2,1}            % flipped polarity and label on right
+    %
+    % Notes:
+    % - The direction vector is scaled by the component length
+    % - The arrow is drawn manually using TikZ, not by circuitikz
+    % - Coordinates must be passed without parentheses
+    %
+    % Author: Luca Giaccone (luca.giaccone@polito.it)
+    % Date: 29.07.2025
+    % ----------------------------------------------------------------
+
+	
+    % handle optional parameters
+    \IfSubStr{#1}{side2}{\def\side{-1}}{\def\side{1}}
+    \IfSubStr{#1}{terminal2}{\def\terminal{-1}}{\def\terminal{1}}
+	
+	% get coordinates
+	\coordinate (vstart) at (#4);
+  	\coordinate (vend) at (#5);
+
+	% put the voltage source with or withour optional parameters
+	\IfNoValueTF{#3}{\draw (vstart) to[I] (vend);}{\draw (vstart) to[I,#3] (vend);}
+
+  	% draw arrow and the label
+  	\draw[-latex] let
+		\p1 = (vstart),
+		\p2 = (vend),
+		\p3 = ($(\p2)-(\p1)$),          % direction vector
+		\n1 = {veclen(\x3,\y3)/28.45},  % length of the vector (in cm)
+		% middle point
+		\p4 = ($0.5*(\p1)+0.5*(\p2)$),
+		% shift 
+		\p5 = ($(\p4) + (0.35*\x3/\n1*\terminal, 0.35*\y3/\n1*\terminal) + (-0.55*\y3/\n1*\side, 0.55*\x3/\n1*\side)$),
+		\p6 = ($(\p4) + (-0.35*\x3/\n1*\terminal, -0.35*\y3/\n1*\terminal) + (-0.55*\y3/\n1*\side, 0.55*\x3/\n1*\side)$),
+		\p7 = ($(\p4) + (-0.8*\y3/\n1*\side, 0.8*\x3/\n1*\side)$)
+  		  in 
+       (\p5) -- (\p6) node at (\p7) [] {#2};  % memo: \StrBehind{#2}{=} if you want to remove everithing before '='
+}
+
+%----------------------------
+% resistor
+%----------------------------
+\NewDocumentCommand{\Resistor}{o m m}{
+	% ----------------------------------------------------------------
+    % \Resistor[<circuitikz options>]{<start>}{<end>}
+    %
+    % Draws a resistor between two coordinates using circuitikz.
+    %
+    % Arguments:
+    % - Optional [<circuitikz options>]:
+    %     * Any resistor-specific options (e.g., l=$R$, name=R1, color=red)
+    % - Mandatory {<start>}, {<end>}:
+    %     * Coordinate pairs **without parentheses**, e.g., {0,0} and {2,0}
+    %
+    % How it works:
+    % - The macro defines the start and end coordinates for the resistor
+    % - If no options are provided, a default resistor is drawn
+    % - If options are provided, they are passed directly to the circuitikz R component
+    %
+    % Example usage:
+    % \Resistor{0,0}{2,0}                         % default resistor
+    % \Resistor[l=$R_1$, name=R1]{0,0}{2,0}       % labeled and named resistor
+    %
+    % Notes:
+    % - Coordinates must be passed without parentheses
+    % - Supports all native circuitikz options for resistors
+    %
+    % Author: Luca Giaccone (luca.giaccone@polito.it)
+    % Date: 29.07.2025
+    % ----------------------------------------------------------------
+	
+	% get coordinates
+	\coordinate (vstart) at (#2);
+  	\coordinate (vend) at (#3);
+
+	% put the resistor with or without optional parameters
+	\IfNoValueTF{#1}{\draw (vstart) to[R] (vend);}{\draw (vstart) to[R, #1] (vend);}
+}
+
+%----------------------------
+% inductor
+%----------------------------
+\NewDocumentCommand{\Inductor}{o m m}{
+    % ----------------------------------------------------------------
+    % \Inductor[<circuitikz options>]{<start>}{<end>}
+    %
+    % Draws an inductor between two coordinates using circuitikz.
+    %
+    % Arguments:
+    % - Optional [<circuitikz options>]:
+    %     * Any inductor-specific options (e.g., l=$L$, name=L1, color=black)
+    % - Mandatory {<start>}, {<end>}:
+    %     * Coordinate pairs **without parentheses**, e.g., {0,0} and {2,0}
+    %
+    % How it works:
+    % - The macro defines the start and end coordinates for the inductor
+    % - If no options are given, a default inductor is drawn
+    % - If options are provided, they are passed directly to the circuitikz L component
+    %
+    % Example usage:
+    % \Inductor{0,0}{2,0}                           % default inductor
+    % \Inductor[l=$L_1$, name=L1]{0,0}{2,0}         % labeled and named inductor
+    %
+    % Notes:
+    % - Coordinates must be passed without parentheses
+    % - Compatible with all standard circuitikz inductor options
+    %
+    % Author: Luca Giaccone (luca.giaccone@polito.it)
+    % Date: 29.07.2025
+    % ----------------------------------------------------------------
+
+	
+	% get coordinates
+	\coordinate (vstart) at (#2);
+  	\coordinate (vend) at (#3);
+
+	% put the resistor with or without optional parameters
+	\IfNoValueTF{#1}{\draw (vstart) to[L] (vend);}{\draw (vstart) to[L, #1] (vend);}
+}
+
+%----------------------------
+% Capacitor
+%----------------------------
+\NewDocumentCommand{\Capacitor}{o m m}{
+	% ----------------------------------------------------------------
+    % \Capacitor[<circuitikz options>]{<start>}{<end>}
+    %
+    % Draws a capacitor between two coordinates using circuitikz.
+    %
+    % Arguments:
+    % - Optional [<circuitikz options>]:
+    %     * Any capacitor-specific options (e.g., l=$C$, name=C1, color=blue)
+    % - Mandatory {<start>}, {<end>}:
+    %     * Coordinate pairs **without parentheses**, e.g., {1,1} and {1,3}
+    %
+    % How it works:
+    % - Defines the start and end coordinates of the capacitor
+    % - If no options are provided, a default capacitor is drawn
+    % - If options are present, they are passed directly to the circuitikz C component
+    %
+    % Example usage:
+    % \Capacitor{0,0}{0,2}                          % default capacitor
+    % \Capacitor[l=$C_1$, name=C1]{0,0}{2,0}        % labeled and named capacitor
+    %
+    % Notes:
+    % - Coordinates must be passed without parentheses
+    % - Fully compatible with native circuitikz capacitor options
+    %
+    % Author: Luca Giaccone (luca.giaccone@polito.it)
+    % Date: 29.07.2025
+    % ----------------------------------------------------------------
+
+	
+	% get coordinates
+	\coordinate (vstart) at (#2);
+  	\coordinate (vend) at (#3);
+
+	% put the resistor with or without optional parameters
+	\IfNoValueTF{#1}{\draw (vstart) to[C] (vend);}{\draw (vstart) to[C, #1] (vend);}
+}
+
+%----------------------------
+% Impedance
+%----------------------------
+\NewDocumentCommand{\Impedance}{o m m}{
+    % ----------------------------------------------------------------
+    % \Impedance[<circuitikz options>]{<start>}{<end>}
+    %
+    % Draws a symbolic impedance between two coordinates using the
+    % circuitikz "generic" component.
+    %
+    % Arguments:
+    % - Optional [<circuitikz options>]:
+    %     * Any options accepted by the generic element (e.g., l=$Z$, name=Z1, color=gray)
+    % - Mandatory {<start>}, {<end>}:
+    %     * Coordinate pairs **without parentheses**, e.g., {1,0} and {3,0}
+    %
+    % How it works:
+    % - The macro uses circuitikz's `to[generic]` to represent an impedance
+    % - If no options are provided, a default unlabeled impedance is drawn
+    % - All given options are passed directly to the generic component
+    %
+    % Example usage:
+    % \Impedance{0,0}{2,0}              % default impedance
+    % \Impedance[l=$Z$]{0,0}{2,0}       % labeled impedance
+    %
+    % Notes:
+    % - Coordinates must be passed without parentheses
+    % - The "generic" component in circuitikz is used to represent Z, Y, or any custom impedance
+    % - Ideal for symbolic or abstract representations in phasor or frequency-domain circuits
+    %
+    % Author: Luca Giaccone (luca.giaccone@polito.it)
+    % Date: 29.07.2025
+    % ----------------------------------------------------------------
+
+	
+	% get coordinates
+	\coordinate (vstart) at (#2);
+  	\coordinate (vend) at (#3);
+
+	% put the resistor with or without optional parameters
+	\IfNoValueTF{#1}{\draw (vstart) to[generic] (vend);}{\draw (vstart) to[generic, #1] (vend);}
+}
+
+%----------------------------
+% Short circuits
+%----------------------------
+\NewDocumentCommand{\Short}{o m m}{
+	% ----------------------------------------------------------------
+    % \Short[<circuitikz options>]{<start>}{<end>}
+    %
+    % Draws a short circuit (a direct connection) between two coordinates
+    % using circuitikz's `to[short]` element.
+    %
+    % Arguments:
+    % - Optional [<circuitikz options>]:
+    %     * Any valid options accepted by the `short` component (e.g., i=$i$, name=wire1)
+    % - Mandatory {<start>}, {<end>}:
+    %     * Coordinate pairs **without parentheses**, e.g., {0,0} and {2,0}
+    %
+    % How it works:
+    % - Defines start and end coordinates
+    % - Draws a short circuit using `to[short]`
+    % - Optional parameters allow adding current labels, names, arrows, etc.
+    %
+    % Example usage:
+    % \Short{0,0}{2,0}                             % default short connection
+    % \Short[i>^=$i$]{0,0}{2,0}                    % current-labeled wire
+    %
+    % Notes:
+    % - Coordinates must be passed without parentheses
+    % - This macro is useful to explicitly show a connection between two nodes
+    % - Compatible with all standard circuitikz options for shorts
+    %
+    % Author: Luca Giaccone (luca.giaccone@polito.it)
+    % Date: 29.07.2025
+    % ----------------------------------------------------------------
+
+	
+	% get coordinates
+	\coordinate (vstart) at (#2);
+  	\coordinate (vend) at (#3);
+
+	% put the resistor with or without optional parameters
+	\IfNoValueTF{#1}{\draw (vstart) to[short] (vend);}{\draw (vstart) to[short, #1] (vend);}
+}
+
+%----------------------------
+% Open circuits
+%----------------------------
+\NewDocumentCommand{\Open}{o m m}{
+    % ----------------------------------------------------------------
+    % \Open[<circuitikz options>]{<start>}{<end>}
+    %
+    % Draws an open circuit (a non-connection) between two coordinates
+    % using circuitikz's `to[open]` component.
+    %
+    % Arguments:
+    % - Optional [<circuitikz options>]:
+    %     * Any valid options for the `open` element (e.g., i=$i$, name=open1)
+    % - Mandatory {<start>}, {<end>}:
+    %     * Coordinate pairs **without parentheses**, e.g., {1,0} and {3,0}
+    %
+    % How it works:
+    % - Defines start and end coordinates
+    % - Draws an open circuit using `to[open]`, which visually leaves a gap
+    % - Optional parameters allow adding current flow labels, markers, or names
+    %
+    % Example usage:
+    % \Open{0,0}{2,0}                               % default open circuit
+    % \Open[i=$i$]{0,0}{2,0}                        % labeled current between open terminals
+    %
+    % Notes:
+    % - Coordinates must be passed without parentheses
+    % - Useful for indicating conceptual or analytical disconnections in a circuit
+    % - Compatible with all standard circuitikz options for open connections
+    %
+    % Author: Luca Giaccone (luca.giaccone@polito.it)
+    % Date: 29.07.2025
+    % ----------------------------------------------------------------
+
+	
+	% get coordinates
+	\coordinate (vstart) at (#2);
+  	\coordinate (vend) at (#3);
+
+	% put the resistor with or without optional parameters
+	\IfNoValueTF{#1}{\draw (vstart) to[open] (vend);}{\draw (vstart) to[open, #1] (vend);}
+}
+
+%----------------------------
+% Switches
+%----------------------------
+\NewDocumentCommand{\Switch}{O{closing} o m m}{
+	% ----------------------------------------------------------------
+    % \Switch[<type>][<circuitikz options>]{<start>}{<end>}
+    %
+    % Draws a switch (opening or closing) between two coordinates using
+    % circuitikz's `to[closing switch]` or `to[opening switch]` directive.
+    %
+    % Arguments:
+    % - Optional [<type>] (default: closing):
+    %     * Either `closing` or `opening` — determines the switch type
+    % - Optional [<circuitikz options>]:
+    %     * Any valid options for the switch (e.g., l=$S$, name=S1, i>^=$i$)
+    % - Mandatory {<start>}, {<end>}:
+    %     * Coordinate pairs **without parentheses**, e.g., {0,0} and {2,0}
+    %
+    % How it works:
+    % - Defines the coordinates for the switch terminals
+    % - Selects the switch type (`closing` or `opening`)
+    % - Draws the appropriate circuitikz switch with any additional options
+    %
+    % Example usage:
+    % \Switch{0,0}{2,0}                               % default closing switch
+    % \Switch[opening]{0,0}{2,0}                      % opening switch
+    % \Switch[closing][l=$S$, name=S1]{0,0}{2,0}      % labeled closing switch
+    %
+    % Notes:
+    % - Coordinates must be passed without parentheses
+    % - The switch type is given as the first optional argument
+    % - Compatible with all circuitikz options for switch components
+    %
+    % Author: Luca Giaccone (luca.giaccone@polito.it)
+    % Date: 29.07.2025
+    % ----------------------------------------------------------------
+
+	
+	% get coordinates
+	\coordinate (vstart) at (#3);
+  	\coordinate (vend) at (#4);
+
+	% put the resistor with or without optional parameters
+	\IfNoValueTF{#2}{\draw (vstart) to[#1 switch] (vend);}{\draw (vstart) to[#1 switch, #2] (vend);}
+}
+
+%----------------------------
+% three-phase generator
+%----------------------------
+\NewDocumentCommand{\ThreePhaseGen}{O{horizontal} O{3} m}{
+    % ----------------------------------------------------------------
+    % \ThreePhaseGen[<orientation>][<length>]{<origin>}
+    %
+    % Draws a balanced three-phase voltage generator using three aligned voltage
+    % sources connected to a common neutral point. Supports both horizontal and
+    % vertical layouts.
+    %
+    % Arguments:
+    % - Optional [<orientation>] (default: horizontal):
+    %     * Either `horizontal` or `vertical` — determines the layout direction of the generator
+    %
+    % - Optional [<length>] (default: 3):
+    %     * The horizontal or vertical span (in TikZ units) between the neutral point and
+    %       the terminals of the voltage sources
+    %
+    % - Mandatory {<origin>}:
+    %     * Coordinate pair (without parentheses) that defines the location of the neutral
+    %       terminal of the second phase (middle generator)
+    %
+    % How it works:
+    % - In `horizontal` mode:
+    %     * Three voltage sources are stacked vertically (y = +1.5, 0, –1.5)
+    %     * Each extends horizontally by the specified length to the left
+    %     * The neutral bar is drawn as a vertical line from bottom to top
+    %
+    % - In `vertical` mode:
+    %     * Three voltage sources are arranged horizontally (x = –1.5, 0, +1.5)
+    %     * Each extends vertically by the specified length downward
+    %     * The neutral bar is drawn as a horizontal line across the three sources
+    %
+    % - The three voltage sources are labeled:
+    %     * $\bar{E}_1$ (top or right), $\bar{E}_2$ (middle, with connection dot), $\bar{E}_3$ (bottom or left)
+    %
+    % Example usage:
+    % \ThreePhaseGen{0,0}                            % horizontal layout, default length
+    % \ThreePhaseGen[vertical]{2,1}                  % vertical layout, default length
+    % \ThreePhaseGen[horizontal][2.5]{-1,-2}         % horizontal with custom length
+    %
+    % Notes:
+    % - Coordinates must be passed without parentheses
+    % - Depends on a predefined \VoltageSource macro
+    % - Designed for symbolic three-phase generator modeling
+    % - Automatically draws the neutral connection
+    %
+    % Author: Luca Giaccone (luca.giaccone@polito.it)
+    % Date: 29.07.2025
+    % ----------------------------------------------------------------
+
+    
+
+    \IfSubStr{#1}{horizontal}{
+        \VoltageSource[side2, terminal1][l_=$\bar{E}_1$]{$(#3) + (#2,1.5)$}{$(#3) + (0,1.5)$}
+        \VoltageSource[side2, terminal1][l_=$\bar{E}_2$, -*]{$(#3) + (#2,0)$}{$(#3) + (0,0)$}
+        \VoltageSource[side2, terminal1][l_=$\bar{E}_3$]{$(#3) + (#2,-1.5)$}{$(#3) + (0,-1.5)$}
+        \draw ($(#3) + (0, -1.5)$) -- ($(#3) + (0, 1.5)$);
+    }{}
+
+    \IfSubStr{#1}{vertical}{
+        \VoltageSource[side2, terminal1][l_=$\bar{E}_1$]{$(#3) + (-1.5,#2)$}{$(#3) + (-1.5,0)$}
+        \VoltageSource[side2, terminal1][l_=$\bar{E}_2$, -*]{$(#3) + (0,#2)$}{$(#3) + (0,0)$}
+        \VoltageSource[side2, terminal1][l_=$\bar{E}_3$]{$(#3) + (1.5,#2)$}{$(#3) + (1.5,0)$}
+        \draw ($(#3) + (-1.5,0)$) -- ($(#3) + (1.5,0)$);
+    }{}
+}
+
+%----------------------------
+% three-phase load
+%----------------------------
+\NewDocumentCommand{\ThreePhaseLoad}{O{vertical} o o m}{
+    % ----------------------------------------------------------------
+    % \ThreePhaseLoad[<orientation>][<label1>][<label2>]{<origin>}
+    %
+    % Draws a symbolic three-phase load block (vertical or horizontal) with optional
+    % internal labels. Automatically adjusts label placement depending on whether one
+    % or two labels are provided.
+    %
+    % Arguments:
+    % - Optional [<orientation>] (default: vertical):
+    %     * Either `vertical` or `horizontal` — sets the orientation of the load block
+    % - Optional [<label1>]:
+    %     * First label — either centered (if no second label), or placed in the upper or left half
+    % - Optional [<label2>]:
+    %     * Second label — placed in the lower (if vertical) or right (if horizontal) half
+    % - Mandatory {<origin>}:
+    %     * Coordinate pair (without parentheses) for the center of the block
+    %
+    % How it works:
+    % - The block is drawn centered at the specified origin
+    % - **Vertical orientation**:
+    %     * Rectangle spans from x = –1 to +1, y = –2 to +2
+    %     * If two labels are provided: label1 goes at y = +1, label2 at y = –1
+    %     * If only one label is given: it is centered inside the block
+    % - **Horizontal orientation**:
+    %     * Rectangle spans from x = –2 to +2, y = –1 to +1
+    %     * If two labels are provided: label1 goes at x = –1, label2 at x = +1
+    %     * If only one label is given: it is centered inside the block
+    %
+    % Example usage:
+    % \ThreePhaseLoad{0,0}                                     % vertical, no labels
+    % \ThreePhaseLoad[horizontal][Y][Δ]{4,0}                   % two labels in horizontal layout
+    % \ThreePhaseLoad[vertical][$Z_{eq}$]{2,-2}                % single centered label
+    %
+    % Notes:
+    % - Coordinates must be passed without parentheses
+    % - Automatically adapts layout depending on label presence
+    % - Useful as a symbolic three-phase or composite load block
+    %
+    % Author: Luca Giaccone (luca.giaccone@polito.it)
+    % Date: 29.07.2025
+    % ----------------------------------------------------------------
+
+
+    \IfEq{#1}{vertical}{
+        \draw ($(#4) + (-1, -2)$) rectangle ($(#4) + (1, 2)$);
+        
+        \IfValueT{#2}{
+            \IfValueT{#3}{
+                \draw node at ($(#4) + (0, 1)$) {#2};
+                \draw node at ($(#4) + (0, -1)$) {#3};
+            }
+        }
+
+        \IfValueT{#2}{
+            \IfNoValueT{#3}{
+                \draw node at (#4) {#2};
+            }
+        }
+
+
+    }{}
+    
+    \IfEq{#1}{horizontal}{
+        \draw ($(#4) + (-2, -1)$) rectangle ($(#4) + (2, 1)$);
+        
+        \IfValueT{#2}{
+            \IfValueT{#3}{
+                \draw node at ($(#4) + (-1, 0)$) {#2};
+                \draw node at ($(#4) + (1, 0)$) {#3};
+            }
+        }
+
+        \IfValueT{#2}{
+            \IfNoValueT{#3}{
+                \draw node at (#4) {#2};
+            }
+        }
+    }{}
+}
+
+
+%----------------------------
+% three-phase line
+%----------------------------
+\NewDocumentCommand{\ThreePhaseLine}{O{horizontal, impedance} O{3} O{$Z_L$} m}{
+    % ----------------------------------------------------------------
+    % \ThreePhaseLine[<config>][<length>][<label>]{<origin>}
+    %
+    % Draws a symbolic three-phase line composed of three identical
+    % components (e.g., impedances, resistors, inductors, or capacitors),
+    % either in horizontal or vertical orientation.
+    %
+    % Arguments:
+    % - Optional [<config>] (default: horizontal, impedance):
+    %     * A comma-separated string that includes:
+    %         - Orientation: `horizontal` or `vertical`
+    %         - Component type: one of `impedance`, `resistor`, `inductor`, `capacitor`
+    %     * Example: `vertical, inductor`
+    %
+    % - Optional [<length>] (default: 3):
+    %     * The total length of each phase path (in TikZ units) along the chosen orientation
+    %     * For horizontal layout: extends along x-axis
+    %     * For vertical layout: extends along y-axis
+    %
+    % - Optional [<label>] (default: $Z_L$):
+    %     * Label applied to the first component in each phase (typically phase 1)
+    %     * Useful for symbolic impedance or parameter annotations
+    %
+    % - Mandatory {<origin>}:
+    %     * Coordinate pair (without parentheses) specifying the neutral reference point
+    %       (center-bottom for vertical, center-left for horizontal)
+    %
+    % How it works:
+    % - Draws three components at vertical offsets (+1.5, 0, –1.5) for horizontal lines,
+    %   or horizontal offsets (+1.5, 0, –1.5) for vertical lines
+    % - The specified component type is drawn between each terminal pair
+    % - The first component (e.g., phase 1) is labeled with the provided expression
+    %
+    % Example usage:
+    % \ThreePhaseLine{0,0}                                       % horizontal line of 3 impedances
+    % \ThreePhaseLine[vertical, resistor]{2,1}                   % vertical line of resistors
+    % \ThreePhaseLine[horizontal, inductor][4][$j\omega L$]{0,0} % horizontal inductors of length 4
+    %
+    % Notes:
+    % - Coordinates must be passed without parentheses
+    % - Depends on macros: \Impedance, \Resistor, \Inductor, \Capacitor
+    % - Component label appears only on the top/first phase
+    % - Designed for symbolic or modular circuit modeling in three-phase systems
+    %
+    % Author: Luca Giaccone (luca.giaccone@polito.it)
+    % Date: 29.07.2025
+    % ----------------------------------------------------------------
+
+
+    \IfSubStr{#1}{horizontal}{
+        \IfSubStr{#1}{impedance}{
+            \Impedance[l_=#3]{$(#4) + (#2,1.5)$}{$(#4) + (0,1.5)$}
+            \Impedance{$(#4) + (#2,0)$}{$(#4) + (0,0)$}
+            \Impedance{$(#4) + (#2,-1.5)$}{$(#4) + (0,-1.5)$}
+        }{}
+
+        \IfSubStr{#1}{resistor}{
+            \Resistor[l_=#3]{$(#4) + (#2,1.5)$}{$(#4) + (0,1.5)$}
+            \Resistor{$(#4) + (#2,0)$}{$(#4) + (0,0)$}
+            \Resistor{$(#4) + (#2,-1.5)$}{$(#4) + (0,-1.5)$}
+        }{}
+
+        \IfSubStr{#1}{inductor}{
+            \Inductor[l=#3]{$(#4) + (0,1.5)$}{$(#4) + (#2,1.5)$}
+            \Inductor{$(#4) + (0,0)$}{$(#4) + (#2,0)$}
+            \Inductor{$(#4) + (0,-1.5)$}{$(#4) + (#2,-1.5)$}
+        }{}
+
+        \IfSubStr{#1}{capacitor}{
+            \Capacitor[l_=#3]{$(#4) + (#2,1.5)$}{$(#4) + (0,1.5)$}
+            \Capacitor{$(#4) + (#2,0)$}{$(#4) + (0,0)$}
+            \Capacitor{$(#4) + (#2,-1.5)$}{$(#4) + (0,-1.5)$}
+        }{}
+    }{}
+
+    \IfSubStr{#1}{vertical}{
+        \IfSubStr{#1}{impedance}{
+            \Impedance{$(#4) + (1.5, #2)$}{$(#4) + (1.5,0)$}
+            \Impedance{$(#4) + (0, #2)$}{$(#4) + (0,0)$}
+            \Impedance[l_=#3]{$(#4) + (-1.5, #2)$}{$(#4) + (-1.5,0)$}
+        }{}
+
+        \IfSubStr{#1}{resistor}{
+            \Resistor{$(#4) + (1.5, #2)$}{$(#4) + (1.5,0)$}
+            \Resistor{$(#4) + (0, #2)$}{$(#4) + (0,0)$}
+            \Resistor[l_=#3]{$(#4) + (-1.5, #2)$}{$(#4) + (-1.5,0)$}
+        }{}
+
+        \IfSubStr{#1}{inductor}{
+            \Inductor{$(#4) + (1.5,0)$}{$(#4) + (1.5, #2)$}
+            \Inductor{$(#4) + (0,0)$}{$(#4) + (0, #2)$}
+            \Inductor[l=#3]{$(#4) + (-1.5,0)$}{$(#4) + (-1.5, #2)$}
+        }{}
+
+        \IfSubStr{#1}{capacitor}{
+            \Capacitor{$(#4) + (1.5, #2)$}{$(#4) + (1.5,0)$}
+            \Capacitor{$(#4) + (0, #2)$}{$(#4) + (0,0)$}
+            \Capacitor[l_=#3]{$(#4) + (-1.5, #2)$}{$(#4) + (-1.5,0)$}
+        }{}
+
+    }{}
+}

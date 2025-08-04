@@ -1,0 +1,720 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage{circuit}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{titlesec}
+\usepackage{titling}
+
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily, columns=fullflexible, breaklines=true}
+% Define custom color scheme
+\definecolor{ltgray}{rgb}{0.95,0.95,0.95}
+\definecolor{purple}{rgb}{0.5,0,0.5}
+\definecolor{darkgreen}{rgb}{0,0.6,0}
+\definecolor{darkblue}{rgb}{0,0,0.6}
+\definecolor{brickred}{rgb}{0.7,0.1,0.1}
+% Define listings style for LaTeX code
+\lstdefinestyle{latexstyle}{
+  backgroundcolor=\color{ltgray},
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{purple},
+  commentstyle=\color{darkgreen}\itshape,
+  stringstyle=\color{brickred},
+  identifierstyle=\color{black},
+  showstringspaces=false,
+  frame=single,
+  rulecolor=\color{black},
+  breaklines=true,
+  language=[LaTeX]TeX,
+  morekeywords={VoltageSource, circuitikz}, % add your macro names here
+  moredelim=**[is][\color{darkblue}]{@}{@}, % for custom highlighting
+}
+
+\setlist{noitemsep}
+\setlength{\parindent}{0pt}
+
+\title{User Guide for \texttt{circuit.sty}}
+\author{Luca Giaccone}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Introduction}
+
+This document provides a complete user guide for the \texttt{circuit.sty} package, authored by Luca Giaccone. The package extends \texttt{circuitikz} by introducing macros that simplify the drawing of common DC, AC, and three-phase circuit components.
+
+The only external dependencies are:
+\begin{itemize}
+    \item \texttt{circuitikz}
+    \item \texttt{xstring}
+\end{itemize}
+
+\section{General Notes}
+
+\begin{itemize}
+    \item All coordinate pairs (e.g., \texttt{\{0,0\}}) must be passed \textbf{without parentheses}.
+    \item Optional arguments may be used to add labels, set orientation, or tweak layout.
+    \item The macros are built on top of \texttt{circuitikz} and follow its drawing conventions.
+\end{itemize}
+
+%---------------------
+\section{Commands Overview and Examples}
+%---------------------
+\subsection{\texttt{\textbackslash VoltageSource}}
+%---------------------
+
+\textbf{Signature:}
+\begin{verbatim}
+\VoltageSource[side, terminal][<circuitikz options>]{<start>}{<end>}
+\end{verbatim}
+
+\textbf{Example 1:}
+
+\begin{lstlisting}[style=latexstyle]
+    \begin{circuitikz}[scale=1]
+        \VoltageSource[side1, terminal1][l=$E_0$]{0,0}{0,3}
+        \VoltageSource[side1, terminal2][l=$E_1$, *-*]{2,0}{2,3}
+        \VoltageSource[side2, terminal2][l_=$E_2$, o-o]{4,0}{4,3}
+        \VoltageSource[side2, terminal1][l_=$E_3$, i=$I_3$]{6,0}{6,3}
+    \end{circuitikz}
+\end{lstlisting}
+
+\begin{center}
+    \begin{circuitikz}
+            \VoltageSource[side1, terminal1][l=$E_0$]{0,0}{0,3}
+            \VoltageSource[side1, terminal2][l=$E_1$, *-*]{2,0}{2,3}
+            \VoltageSource[side2, terminal2][l_=$E_2$, o-o]{4,0}{4,3}
+            \VoltageSource[side2, terminal1][l_=$E_3$, i=$I_3$]{6,0}{6,3}
+    \end{circuitikz}
+\end{center}
+
+\textbf{Example 2:}
+
+\begin{lstlisting}[style=latexstyle]
+    \begin{circuitikz}[scale=1]
+        \VoltageSource[][*-o]{0,0}{2,2} % equivalent to side1, terminal1
+        \VoltageSource[side1, terminal2][l=$E_4$, -o]{0,0}{-2,2}
+        \VoltageSource[side2, terminal2][l=$E_5$, -o]{0,0}{-2,-2}
+        \VoltageSource[side2, terminal1][-o]{0,0}{2,-2}
+    \end{circuitikz}
+\end{lstlisting}
+
+\begin{center}
+    \begin{circuitikz}[scale=1]
+        \VoltageSource[][*-o]{0,0}{2,2} % equivalent to side1, terminal1
+        \VoltageSource[side1, terminal2][l=$E_4$, -o]{0,0}{-2,2}
+        \VoltageSource[side2, terminal2][l=$E_5$, -o]{0,0}{-2,-2}
+        \VoltageSource[side2, terminal1][-o]{0,0}{2,-2}
+    \end{circuitikz}
+\end{center}
+
+%---------------------
+\subsection{\texttt{\textbackslash CurrentSource}}
+%---------------------
+
+\textbf{Signature:}
+\begin{verbatim}
+\CurrentSource[side, terminal, label][<options>]{<start>}{<end>}
+\end{verbatim}
+
+\textbf{Example 1:}
+
+\begin{lstlisting}[style=latexstyle]
+    \begin{circuitikz}[scale=1]
+        \CurrentSource[side1, terminal1][$A_1$]{0,0}{0,3}
+        \CurrentSource[side1, terminal2][$A_2$][*-*]{2.5,0}{2.5,3}
+        \CurrentSource[side2, terminal2][$A_3$][o-o]{5,0}{5,3}
+        \CurrentSource[side2, terminal1][$A_4$][v^=$V_4$]{7.5,0}{7.5,3}
+    \end{circuitikz}
+\end{lstlisting}
+
+
+\begin{center}
+    \begin{circuitikz}[scale=1]
+        \CurrentSource[side1, terminal1][$A_1$]{0,0}{0,3}
+        \CurrentSource[side1, terminal2][$A_2$][*-*]{2.5,0}{2.5,3}
+        \CurrentSource[side2, terminal2][$A_3$][o-o]{5,0}{5,3}
+        \CurrentSource[side2, terminal1][$A_4$][v^=$V_4$]{7.5,0}{7.5,3}
+    \end{circuitikz}
+\end{center}
+
+\textbf{Example 2:}
+
+\begin{lstlisting}[style=latexstyle]
+    \begin{circuitikz}[scale=1]
+        \CurrentSource[side1, terminal1][$A_5$][]{0,0}{2,2}
+        \CurrentSource[side1, terminal2][$A_6$][*-*]{0,0}{-2,2}
+        \CurrentSource[side2, terminal2][$A_7$][o-o]{0,0}{-2,-2}
+        \CurrentSource[side2, terminal1][$A_8$][v^>=$V_8$]{0,0}{2,-2}
+    \end{circuitikz}
+\end{lstlisting}
+
+\begin{center}
+    \begin{circuitikz}[scale=1]
+        \CurrentSource[side1, terminal1][$A_5$][]{0,0}{2,2}
+        \CurrentSource[side1, terminal2][$A_6$][*-*]{0,0}{-2,2}
+        \CurrentSource[side2, terminal2][$A_7$][o-o]{0,0}{-2,-2}
+        \CurrentSource[side2, terminal1][$A_8$][v^>=$V_8$]{0,0}{2,-2}
+    \end{circuitikz}
+\end{center}
+
+%---------------------
+\subsection{\texttt{\textbackslash Resistor}}
+
+\textbf{Signature:}
+\begin{verbatim}
+\Resistor[<options>]{<start>}{<end>}
+\end{verbatim}
+
+\textbf{Example 1:}
+
+\begin{lstlisting}[style=latexstyle]
+\begin{circuitikz}[scale=1]
+	\Resistor[l=$R_1$]{0,0}{0,3}
+	\Resistor[l=$R_2$,*-*]{2.5,0}{2.5,3}
+	\Resistor[l=$R_3$,o-o]{5,0}{5,3}
+	\Resistor[l_=$R_4$,v^=$V_4$]{7.5,0}{7.5,3}
+\end{circuitikz}
+\end{lstlisting}
+
+
+\begin{center}
+\begin{circuitikz}[scale=1]
+	\Resistor[l=$R_1$]{0,0}{0,3}
+	\Resistor[l=$R_2$,*-*]{2.5,0}{2.5,3}
+	\Resistor[l=$R_3$,o-o]{5,0}{5,3}
+	\Resistor[l_=$R_4$,v^=$V_4$]{7.5,0}{7.5,3}
+\end{circuitikz}
+\end{center}
+
+\textbf{Example 2:}
+
+\begin{lstlisting}[style=latexstyle]
+\begin{circuitikz}[scale=1]
+	\Resistor[l=$R_5$]{0,0}{2,2}
+	\Resistor[l=$R_6$,*-*]{0,0}{-2,2}
+	\Resistor[l=$R_7$,o-o]{0,0}{-2,-2}
+	\Resistor[l_=$R_8$,v^>=$V_8$]{0,0}{2,-2}
+\end{circuitikz}
+\end{lstlisting}
+
+\begin{center}
+\begin{circuitikz}[scale=1]
+	\Resistor[l=$R_5$]{0,0}{2,2}
+	\Resistor[l=$R_6$,*-*]{0,0}{-2,2}
+	\Resistor[l=$R_7$,o-o]{0,0}{-2,-2}
+	\Resistor[l_=$R_8$,v^>=$V_8$]{0,0}{2,-2}
+\end{circuitikz}
+\end{center}
+
+%---------------------
+\subsection{\texttt{\textbackslash Inductor}}
+
+\textbf{Signature:}
+\begin{verbatim}
+\Inductor[<options>]{<start>}{<end>}
+\end{verbatim}
+
+\textbf{Example 1:}
+
+\begin{lstlisting}[style=latexstyle]
+\begin{circuitikz}[scale=1]
+	\Inductor[l=$L_1$]{0,0}{0,3}
+	\Inductor[l=$L_2$,*-*]{2.5,0}{2.5,3}
+	\Inductor[l=$L_3$,o-o]{5,0}{5,3}
+	\Inductor[l_=$L_4$,v^=$V_4$]{7.5,0}{7.5,3}
+\end{circuitikz}
+\end{lstlisting}
+
+
+\begin{center}
+\begin{circuitikz}[scale=1]
+	\Inductor[l=$L_1$]{0,0}{0,3}
+	\Inductor[l=$L_2$,*-*]{2.5,0}{2.5,3}
+	\Inductor[l=$L_3$,o-o]{5,0}{5,3}
+	\Inductor[l_=$L_4$,v^=$V_4$]{7.5,0}{7.5,3}
+\end{circuitikz}
+\end{center}
+
+\textbf{Example 2:}
+
+\begin{lstlisting}[style=latexstyle]
+\begin{circuitikz}[scale=1]
+	\Inductor[l=$L_5$]{0,0}{2,2}
+	\Inductor[l=$L_6$,*-*]{0,0}{-2,2}
+	\Inductor[l=$L_7$,o-o]{0,0}{-2,-2}
+	\Inductor[l_=$L_8$,v^>=$V_8$]{0,0}{2,-2}
+\end{circuitikz}
+\end{lstlisting}
+
+\begin{center}
+\begin{circuitikz}[scale=1]
+	\Inductor[l=$L_5$]{0,0}{2,2}
+	\Inductor[l=$L_6$,*-*]{0,0}{-2,2}
+	\Inductor[l=$L_7$,o-o]{0,0}{-2,-2}
+	\Inductor[l_=$L_8$,v^>=$V_8$]{0,0}{2,-2}
+\end{circuitikz}
+\end{center}
+
+%---------------------
+\subsection{\texttt{\textbackslash Capacitor}}
+
+\textbf{Signature:}
+\begin{verbatim}
+\Capacitor[<options>]{<start>}{<end>}
+\end{verbatim}
+
+\textbf{Example 1:}
+
+\begin{lstlisting}[style=latexstyle]
+\begin{circuitikz}[scale=1]
+	\Capacitor[l=$C_1$]{0,0}{0,3}
+	\Capacitor[l=$C_2$,*-*]{2.5,0}{2.5,3}
+	\Capacitor[l=$C_3$,o-o]{5,0}{5,3}
+	\Capacitor[l_=$C_4$,v^=$V_4$]{7.5,0}{7.5,3}
+\end{circuitikz}
+\end{lstlisting}
+
+
+\begin{center}
+\begin{circuitikz}[scale=1]
+	\Capacitor[l=$C_1$]{0,0}{0,3}
+	\Capacitor[l=$C_2$,*-*]{2.5,0}{2.5,3}
+	\Capacitor[l=$C_3$,o-o]{5,0}{5,3}
+	\Capacitor[l_=$C_4$,v^=$V_4$]{7.5,0}{7.5,3}
+\end{circuitikz}
+\end{center}
+
+\textbf{Example 2:}
+
+\begin{lstlisting}[style=latexstyle]
+\begin{circuitikz}[scale=1]
+	\Capacitor[l=$C_5$]{0,0}{2,2}
+	\Capacitor[l=$C_6$,*-*]{0,0}{-2,2}
+	\Capacitor[l=$C_7$,o-o]{0,0}{-2,-2}
+	\Capacitor[l_=$C_8$,v^>=$V_8$]{0,0}{2,-2}
+\end{circuitikz}
+\end{lstlisting}
+
+\begin{center}
+\begin{circuitikz}[scale=1]
+	\Capacitor[l=$C_5$]{0,0}{2,2}
+	\Capacitor[l=$C_6$,*-*]{0,0}{-2,2}
+	\Capacitor[l=$C_7$,o-o]{0,0}{-2,-2}
+	\Capacitor[l_=$C_8$,v^>=$V_8$]{0,0}{2,-2}
+\end{circuitikz}
+\end{center}
+
+%---------------------
+\subsection{\texttt{\textbackslash Impedance}}
+
+\textbf{Signature:}
+\begin{verbatim}
+\Impedance[<options>]{<start>}{<end>}
+\end{verbatim}
+
+\textbf{Example 1:}
+
+\begin{lstlisting}[style=latexstyle]
+\begin{circuitikz}[scale=1]
+	\Impedance[l=$\bar{Z}_1$]{0,0}{0,3}
+	\Impedance[l=$\bar{Z}_2$,*-*]{2.5,0}{2.5,3}
+	\Impedance[l=$\bar{Z}_3$,o-o]{5,0}{5,3}
+	\Impedance[l_=$\bar{Z}_4$,v^=$V_4$]{7.5,0}{7.5,3}
+\end{circuitikz}
+\end{lstlisting}
+
+
+\begin{center}
+\begin{circuitikz}[scale=1]
+	\Impedance[l=$\bar{Z}_1$]{0,0}{0,3}
+	\Impedance[l=$\bar{Z}_2$,*-*]{2.5,0}{2.5,3}
+	\Impedance[l=$\bar{Z}_3$,o-o]{5,0}{5,3}
+	\Impedance[l_=$\bar{Z}_4$,v^=$V_4$]{7.5,0}{7.5,3}
+\end{circuitikz}
+\end{center}
+
+\textbf{Example 2:}
+
+\begin{lstlisting}[style=latexstyle]
+\begin{circuitikz}[scale=1]
+	\Impedance[l=$\bar{Z}_5$]{0,0}{2,2}
+	\Impedance[l=$\bar{Z}_6$,*-*]{0,0}{-2,2}
+	\Impedance[l=$\bar{Z}_7$,o-o]{0,0}{-2,-2}
+	\Impedance[l_=$\bar{Z}_8$,v^>=$V_8$]{0,0}{2,-2}
+\end{circuitikz}
+\end{lstlisting}
+
+\begin{center}
+\begin{circuitikz}[scale=1]
+	\Impedance[l=$\bar{Z}_5$]{0,0}{2,2}
+	\Impedance[l=$\bar{Z}_6$,*-*]{0,0}{-2,2}
+	\Impedance[l=$\bar{Z}_7$,o-o]{0,0}{-2,-2}
+	\Impedance[l_=$\bar{Z}_8$,v^>=$V_8$]{0,0}{2,-2}
+\end{circuitikz}
+\end{center}
+
+%---------------------
+\subsection{\texttt{\textbackslash Short}}
+
+\textbf{Signature:}
+\begin{verbatim}
+\Short[<options>]{<start>}{<end>}
+\end{verbatim}
+
+\textbf{Example 1:}
+
+\begin{lstlisting}[style=latexstyle]
+\begin{circuitikz}[scale=1]
+	\Short[i=$I_{cc1}$]{0,0}{0,3}
+	\Short[i<=$I_{cc2}$,*-*]{2.5,0}{2.5,3}
+	\Short[i_=$I_{cc3}$, o-o]{5,0}{5,3}
+	\Short[i_<=$I_{cc4}$]{7.5,0}{7.5,3}
+\end{circuitikz}
+\end{lstlisting}
+
+
+\begin{center}
+\begin{circuitikz}[scale=1]
+	\Short[i=$I_{cc1}$]{0,0}{0,3}
+	\Short[i<=$I_{cc2}$,*-*]{2.5,0}{2.5,3}
+	\Short[i_=$I_{cc3}$, o-o]{5,0}{5,3}
+	\Short[i_<=$I_{cc4}$]{7.5,0}{7.5,3}
+\end{circuitikz}
+\end{center}
+
+\textbf{Example 2:}
+
+\begin{lstlisting}[style=latexstyle]
+\begin{circuitikz}[scale=1]
+	\Short[i=$I_{cc5}$, *-o]{0,0}{2,2}
+	\Short[i<=$I_{cc6}$, -o]{0,0}{-2,2}
+	\Short[i_=$I_{cc7}$, -o]{0,0}{-2,-2}
+	\Short[i_<=$I_{cc8}$, -o]{0,0}{2,-2}
+\end{circuitikz}
+\end{lstlisting}
+
+\begin{center}
+\begin{circuitikz}[scale=1]
+	\Short[i=$I_{cc5}$, *-o]{0,0}{2,2}
+	\Short[i<=$I_{cc6}$, -o]{0,0}{-2,2}
+	\Short[i_=$I_{cc7}$, -o]{0,0}{-2,-2}
+	\Short[i_<=$I_{cc8}$, -o]{0,0}{2,-2}
+\end{circuitikz}
+\end{center}
+
+%---------------------
+\subsection{\texttt{\textbackslash Open}}
+
+\textbf{Signature:}
+\begin{verbatim}
+\Open[<options>]{<start>}{<end>}
+\end{verbatim}
+
+\textbf{Example 1:}
+
+\begin{lstlisting}[style=latexstyle]
+\begin{circuitikz}[scale=1]
+	\Open[v=$V_{oc1}$, *-*]{0,0}{0,3}
+	\Open[v_=$V_{oc2}$, o-o]{2.5,0}{2.5,3}
+	\Open[v<=$V_{oc3}$, *-*]{5,0}{5,3}
+	\Open[v_<=$V_{oc4}$, o-o]{7.5,0}{7.5,3}
+\end{circuitikz}
+\end{lstlisting}
+
+
+\begin{center}
+\begin{circuitikz}[scale=1]
+	\Open[v=$V_{oc1}$, *-*]{0,0}{0,3}
+	\Open[v_=$V_{oc2}$, o-o]{2.5,0}{2.5,3}
+	\Open[v<=$V_{oc3}$, *-*]{5,0}{5,3}
+	\Open[v_<=$V_{oc4}$, o-o]{7.5,0}{7.5,3}
+\end{circuitikz}
+\end{center}
+
+\textbf{Example 2:}
+
+\begin{lstlisting}[style=latexstyle]
+\begin{circuitikz}[scale=1]
+	\Open[v=$V_{oc5}$, *-*]{0,0}{2,2}
+	\Open[v_=$V_{oc6}$, o-o]{0,0}{-2,2}
+	\Open[v<=$V_{oc7}$, *-*]{0,0}{-2,-2}
+	\Open[v_<=$V_{oc8}$, o-o]{0,0}{2,-2}
+\end{circuitikz}
+\end{lstlisting}
+
+\begin{center}
+\begin{circuitikz}[scale=1]
+	\Open[v=$V_{oc5}$, *-*]{0,0}{2,2}
+	\Open[v_=$V_{oc6}$, o-o]{0,0}{-2,2}
+	\Open[v<=$V_{oc7}$, *-*]{0,0}{-2,-2}
+	\Open[v_<=$V_{oc8}$, o-o]{0,0}{2,-2}
+\end{circuitikz}
+\end{center}
+
+%---------------------
+\subsection{\texttt{\textbackslash Switch}}
+
+\textbf{Signature:}
+\begin{verbatim}
+\Switch[opening|closing][<options>]{<start>}{<end>}
+\end{verbatim}
+
+\textbf{Example 1:}
+
+\begin{lstlisting}[style=latexstyle]
+\begin{circuitikz}[scale=1]
+	\Switch[opening][l={$t=0$}]{0,0}{0,3}
+	\Switch[opening][l={$t=t_0$}, *-*]{2.5,0}{2.5,3}
+	\Switch[closing][l={$t=t_1$}, o-o]{5,0}{5,3}
+	\Switch[closing][l={$t=t_2$}, ,v=$V_S$]{7.5,0}{7.5,3}
+\end{circuitikz}
+\end{lstlisting}
+
+
+\begin{center}
+\begin{circuitikz}[scale=1]
+	\Switch[opening][l={$t=0$}]{0,0}{0,3}
+	\Switch[opening][l={$t=t_0$}, *-*]{2.5,0}{2.5,3}
+	\Switch[closing][l={$t=t_1$}, o-o]{5,0}{5,3}
+	\Switch[closing][l={$t=t_2$}, ,v=$V_S$]{7.5,0}{7.5,3}
+\end{circuitikz}
+\end{center}
+
+\textbf{Example 2:}
+
+\begin{lstlisting}[style=latexstyle]
+\begin{circuitikz}[scale=1]
+	\Switch[opening][l={$t=0$}]{0,0}{2,2}
+	\Switch[opening][l={$t=t_0$}, *-*]{0,0}{-2,2}
+	\Switch[closing][l={$t=t_1$}, o-o]{0,0}{-2,-2}
+	\Switch[closing][l={$t=t_2$}, ,v=$V_S$]{0,0}{2,-2}
+\end{circuitikz}
+\end{lstlisting}
+
+\begin{center}
+\begin{circuitikz}[scale=1]
+	\Switch[opening][l={$t=0$}]{0,0}{2,2}
+	\Switch[opening][l={$t=t_0$}, *-*]{0,0}{-2,2}
+	\Switch[closing][l={$t=t_1$}, o-o]{0,0}{-2,-2}
+	\Switch[closing][l={$t=t_2$}, ,v=$V_S$]{0,0}{2,-2}
+\end{circuitikz}
+\end{center}
+
+% \newpage
+%---------------------
+\subsection{\texttt{\textbackslash ThreePhaseGen}}
+
+\textbf{Signature:}
+\begin{verbatim}
+\ThreePhaseGen[horizontal|vertical][<length>]{<origin>}
+\end{verbatim}
+
+\textbf{Example:}
+
+\begin{lstlisting}[style=latexstyle]
+\begin{circuitikz}
+    \ThreePhaseGen[horizontal][3]{0,0}
+    \ThreePhaseGen[vertical][2]{8,-1.5}
+\end{circuitikz}
+\end{lstlisting}
+
+\begin{center}
+    \begin{circuitikz}
+        \ThreePhaseGen[horizontal][3]{0,0}
+        \ThreePhaseGen[vertical][2]{8,-1.5}
+    \end{circuitikz}
+\end{center}
+
+% %---------------------
+\subsection{\texttt{\textbackslash ThreePhaseLoad}}
+
+\textbf{Signature:}
+\begin{verbatim}
+\ThreePhaseLoad[vertical|horizontal][<label1>][<label2>]{<origin>}
+\end{verbatim}
+
+\textbf{Examples:}
+
+\begin{lstlisting}[style=latexstyle]
+\begin{circuitikz}
+    \ThreePhaseLoad[vertical][$P$][$Q$]{0,0}
+    \ThreePhaseLoad[horizontal][$Q_C$]{8,0}
+\end{circuitikz}
+\end{lstlisting}
+
+\begin{center}
+\begin{circuitikz}
+    \ThreePhaseLoad[vertical][$P$][$Q$]{0,0}
+    \ThreePhaseLoad[horizontal][$Q_C$]{8,0}
+\end{circuitikz}
+\end{center}
+
+
+
+%---------------------
+\subsection{\texttt{\textbackslash ThreePhaseLine}}
+
+\textbf{Signature:}
+\begin{verbatim}
+\ThreePhaseLine[horizontal|vertical, type][<length>][<label>]{<origin>}
+\end{verbatim}
+
+\textbf{Example:}
+
+\begin{lstlisting}[style=latexstyle]
+\begin{circuitikz}
+    \ThreePhaseLine[horizontal, impedance][3][$\bar{Z}_L$]{0,0}
+    \ThreePhaseLine[vertical, resistor][3][$R$]{6.5,-1.5}
+    \ThreePhaseLine[vertical, inductor][3][$L$]{12,-1.5}
+\end{circuitikz}
+\end{lstlisting}
+
+\begin{center}
+\begin{circuitikz}
+    \ThreePhaseLine[horizontal, impedance][3][$\bar{Z}_L$]{0,0}
+    \ThreePhaseLine[vertical, resistor][3][$R$]{6.5,-1.5}
+    \ThreePhaseLine[vertical, inductor][3][$L$]{12,-1.5}
+\end{circuitikz}
+\end{center}
+
+
+
+\newpage
+\section{Example Circuits}
+
+\subsection{DC Circuit}
+
+\begin{lstlisting}[style=latexstyle]
+\begin{circuitikz}[scale=1]
+    \VoltageSource[side1, terminal2][l=$E_1$]{0,0}{0,3}
+    \Resistor[l=$R_1$]{0,3}{3,3}
+    \Resistor[l=$R_2$]{0,0}{3,0}
+    \CurrentSource[side1, terminal2][$A_1$][*-*]{3,0}{3,3}
+    \Resistor[l=$R_3$, -*]{3,3}{6,0}
+    \Resistor[l=$R_4$, -*]{3,3}{6,3}
+    \Switch[closing][l={t=0}]{6,3}{9,3}
+    \Capacitor[l=$C_1$, v<=$v(t)$]{9,3}{9,0}
+    \draw (3,0) -- (6,0) -- (6,3);
+    \draw (6,0) -- (9,0);
+\end{circuitikz}
+\end{lstlisting}
+
+\begin{center}
+	\begin{circuitikz}[scale=1]
+		\VoltageSource[side1, terminal2][l=$E_1$]{0,0}{0,3}
+		\Resistor[l=$R_1$]{0,3}{3,3}
+		\Resistor[l=$R_2$]{0,0}{3,0}
+		\CurrentSource[side1, terminal2][$A_1$][*-*]{3,0}{3,3}
+		\Resistor[l=$R_3$, -*]{3,3}{6,0}
+		\Resistor[l=$R_4$, -*]{3,3}{6,3}
+		\Switch[closing][l={t=0}]{6,3}{9,3}
+		\Capacitor[l=$C_1$, v<=$v(t)$]{9,3}{9,0}
+		\draw (3,0) -- (6,0) -- (6,3);
+		\draw (6,0) -- (9,0);
+	\end{circuitikz}
+\end{center}
+
+\subsection{AC Circuit}
+
+\begin{lstlisting}[style=latexstyle]
+\begin{circuitikz}[scale=1]
+    \VoltageSource[side1, terminal2][l=$\bar{E}_1$]{0,0}{0,6}
+    \CurrentSource[side1, terminal1][$\bar{A}_1$][*-*]{3,3}{6,3}
+    \Impedance[l=$\bar{Z}_1$, *-, v<=$\bar{V}_1$]{3,6}{3,3}
+    \Impedance[l=$\bar{Z}_2$, -*, i=$\bar{I}_2$]{3,3}{3,0}
+    \Impedance[l=$\bar{Z}_3$, i^<=$\bar{I}_3$]{6,6}{6,3}
+    \Impedance[l=$\bar{Z}_4$,  v<=$\bar{V}_4$]{6,3}{6,0}
+    \draw (0,0) -- (6,0);
+    \draw (0,6) -- (6,6);
+\end{circuitikz} 
+\end{lstlisting}
+
+\begin{center}
+	\begin{circuitikz}[scale=1]
+		\VoltageSource[side1, terminal2][l=$\bar{E}_1$]{0,0}{0,6}
+		\CurrentSource[side1, terminal1][$\bar{A}_1$][*-*]{3,3}{6,3}
+		\Impedance[l=$\bar{Z}_1$, *-, v<=$\bar{V}_1$]{3,6}{3,3}
+		\Impedance[l=$\bar{Z}_2$, -*, i=$\bar{I}_2$]{3,3}{3,0}
+		\Impedance[l=$\bar{Z}_3$, i^<=$\bar{I}_3$]{6,6}{6,3}
+		\Impedance[l=$\bar{Z}_4$,  v<=$\bar{V}_4$]{6,3}{6,0}
+		\draw (0,0) -- (6,0);
+		\draw (0,6) -- (6,6);
+	\end{circuitikz}   
+\end{center}
+
+\subsection{Three-Phase Circuit}
+
+\begin{lstlisting}[style=latexstyle]
+\begin{circuitikz}[]%,line width=0.5pt]
+    
+        % generator and line
+        \ThreePhaseGen[horizontal][2]{0,4}
+        \ThreePhaseLine[horizontal, impedance][2.5][$\bar{Z}_L$]{2,4}
+    
+        % load A
+        \Short{4.5, 5.5}{9, 5.5};
+        \Short{4.5, 4}{9, 4};
+        \Short{4.5, 2.5}{9, 2.5};
+        \ThreePhaseLoad[vertical][$P_A$][$Q_A$]{10,4}
+        
+        % load B
+        \Short[*-]{5,5.5}{5, 1}
+        \Short[*-]{6.5,4}{6.5, 1}
+        \Short[*-]{8,2.5}{8, 1}
+        \ThreePhaseLoad[horizontal][$P_B$][$\cos \varphi_B$]{6.5,0}
+    
+        % current and voltages defined by means of Short and Open
+        \Open[i=$\bar{I}_A$]{6,5.5}{8.5,5.5}
+        \Open[i=$\bar{I}_B$]{5,5.5}{5,3}
+        \Open[v=$\bar{V}_g$]{2,4}{2,5.5}
+        \Open[v^=$\bar{V}$]{8.5,4}{8.5,5.5}
+    
+    \end{circuitikz}
+\end{lstlisting}
+
+\begin{center}
+   
+    \begin{circuitikz}[]%,line width=0.5pt]
+    
+        % generator and line
+        \ThreePhaseGen[horizontal][2]{0,4}
+        \ThreePhaseLine[horizontal, impedance][2.5][$\bar{Z}_L$]{2,4}
+    
+        % load A
+        \Short{4.5, 5.5}{9, 5.5};
+        \Short{4.5, 4}{9, 4};
+        \Short{4.5, 2.5}{9, 2.5};
+        \ThreePhaseLoad[vertical][$P_A$][$Q_A$]{10,4}
+        
+        % load B
+        \Short[*-]{5,5.5}{5, 1}
+        \Short[*-]{6.5,4}{6.5, 1}
+        \Short[*-]{8,2.5}{8, 1}
+        \ThreePhaseLoad[horizontal][$P_B$][$\cos \varphi_B$]{6.5,0}
+    
+        % current and voltages defined by means of Short and Open
+        \Open[i=$\bar{I}_A$]{6,5.5}{8.5,5.5}
+        \Open[i=$\bar{I}_B$]{5,5.5}{5,3}
+        \Open[v=$\bar{V}_g$]{2,4}{2,5.5}
+        \Open[v^=$\bar{V}$]{8.5,4}{8.5,5.5}
+    
+    \end{circuitikz}
+\end{center}
+
+\section{Final Notes}
+
+Ensure that the \texttt{circuit.sty} file is in your local project directory or in your \texttt{TEXMFHOME} tree. This guide provides all needed information and examples for typical usage of the macros defined in the package.
+
+\end{document}
