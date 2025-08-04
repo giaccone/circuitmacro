@@ -2,7 +2,6 @@
 
 \usepackage{geometry}
 \geometry{margin=2.5cm}
-\usepackage{circuit}
 \usepackage{lmodern}
 \usepackage{graphicx}
 \usepackage{hyperref}
@@ -10,6 +9,7 @@
 \usepackage{amsmath}
 \usepackage{titlesec}
 \usepackage{titling}
+\usepackage{circuitmacro}
 
 \usepackage{listings}
 \lstset{basicstyle=\ttfamily, columns=fullflexible, breaklines=true}
@@ -39,7 +39,7 @@
 \setlist{noitemsep}
 \setlength{\parindent}{0pt}
 
-\title{User Guide for \texttt{circuit.sty}}
+\title{User Guide for \texttt{circuitmacro.sty}}
 \author{Luca Giaccone}
 \date{\today}
 
@@ -52,13 +52,28 @@
 
 \section{Introduction}
 
-This document provides a complete user guide for the \texttt{circuit.sty} package, authored by Luca Giaccone. The package extends \texttt{circuitikz} by introducing macros that simplify the drawing of common DC, AC, and three-phase circuit components.
+This document provides a complete user guide for the \texttt{circuitmacro.sty} package, authored by Luca Giaccone. The package extends \texttt{circuitikz} by introducing macros that simplify the drawing of common DC, AC, and three-phase circuit components.
 
 The only external dependencies are:
 \begin{itemize}
     \item \texttt{circuitikz}
     \item \texttt{xstring}
 \end{itemize}
+
+Put the file either in project directory or in the \texttt{TEXHOME} tree. These are the corret path for different operating systems:
+
+\begin{center}
+    \centering
+    \begin{tabular}{l  l}
+        \hline
+        macOS: & \texttt{/Users/<username>/Library/texmf/tex/latex/circuitmacro/} \\
+        Linux: & \texttt{/home/<username>/texmf/tex/latex/circuitmacro/} \\
+        \hline
+    \end{tabular}
+   
+\end{center}
+
+
 
 \section{General Notes}
 
@@ -82,12 +97,12 @@ The only external dependencies are:
 \textbf{Example 1:}
 
 \begin{lstlisting}[style=latexstyle]
-    \begin{circuitikz}[scale=1]
-        \VoltageSource[side1, terminal1][l=$E_0$]{0,0}{0,3}
-        \VoltageSource[side1, terminal2][l=$E_1$, *-*]{2,0}{2,3}
-        \VoltageSource[side2, terminal2][l_=$E_2$, o-o]{4,0}{4,3}
-        \VoltageSource[side2, terminal1][l_=$E_3$, i=$I_3$]{6,0}{6,3}
-    \end{circuitikz}
+\begin{circuitikz}[scale=1]
+    \VoltageSource[side1, terminal1][l=$E_0$]{0,0}{0,3}
+    \VoltageSource[side1, terminal2][l=$E_1$, *-*]{2,0}{2,3}
+    \VoltageSource[side2, terminal2][l_=$E_2$, o-o]{4,0}{4,3}
+    \VoltageSource[side2, terminal1][l_=$E_3$, i=$I_3$]{6,0}{6,3}
+\end{circuitikz}
 \end{lstlisting}
 
 \begin{center}
@@ -102,12 +117,12 @@ The only external dependencies are:
 \textbf{Example 2:}
 
 \begin{lstlisting}[style=latexstyle]
-    \begin{circuitikz}[scale=1]
-        \VoltageSource[][*-o]{0,0}{2,2} % equivalent to side1, terminal1
-        \VoltageSource[side1, terminal2][l=$E_4$, -o]{0,0}{-2,2}
-        \VoltageSource[side2, terminal2][l=$E_5$, -o]{0,0}{-2,-2}
-        \VoltageSource[side2, terminal1][-o]{0,0}{2,-2}
-    \end{circuitikz}
+\begin{circuitikz}[scale=1]
+    \VoltageSource[][*-o]{0,0}{2,2} % equivalent to side1, terminal1
+    \VoltageSource[side1, terminal2][l=$E_4$, -o]{0,0}{-2,2}
+    \VoltageSource[side2, terminal2][l=$E_5$, -o]{0,0}{-2,-2}
+    \VoltageSource[side2, terminal1][-o]{0,0}{2,-2}
+\end{circuitikz}
 \end{lstlisting}
 
 \begin{center}
@@ -125,24 +140,24 @@ The only external dependencies are:
 
 \textbf{Signature:}
 \begin{verbatim}
-\CurrentSource[side, terminal, label][<options>]{<start>}{<end>}
+\CurrentSource[side,terminal][<label>][<circuitikz options>]{<start>}{<end>}
 \end{verbatim}
 
 \textbf{Example 1:}
 
 \begin{lstlisting}[style=latexstyle]
-    \begin{circuitikz}[scale=1]
-        \CurrentSource[side1, terminal1][$A_1$]{0,0}{0,3}
-        \CurrentSource[side1, terminal2][$A_2$][*-*]{2.5,0}{2.5,3}
-        \CurrentSource[side2, terminal2][$A_3$][o-o]{5,0}{5,3}
-        \CurrentSource[side2, terminal1][$A_4$][v^=$V_4$]{7.5,0}{7.5,3}
-    \end{circuitikz}
+\begin{circuitikz}[scale=1]
+    \CurrentSource[side1, terminal1][$A_1$]{0,0}{0,3}
+    \CurrentSource[side1, terminal2][][*-*]{2.5,0}{2.5,3}
+    \CurrentSource[side2, terminal2][$A_3$][o-o]{5,0}{5,3}
+    \CurrentSource[side2, terminal1][$A_4$][v^=$V_4$]{7.5,0}{7.5,3}
+\end{circuitikz}
 \end{lstlisting}
 
 
 \begin{center}
     \begin{circuitikz}[scale=1]
-        \CurrentSource[side1, terminal1][$A_1$]{0,0}{0,3}
+        \CurrentSource[side1, terminal1]{0,0}{0,3}
         \CurrentSource[side1, terminal2][$A_2$][*-*]{2.5,0}{2.5,3}
         \CurrentSource[side2, terminal2][$A_3$][o-o]{5,0}{5,3}
         \CurrentSource[side2, terminal1][$A_4$][v^=$V_4$]{7.5,0}{7.5,3}
@@ -152,12 +167,12 @@ The only external dependencies are:
 \textbf{Example 2:}
 
 \begin{lstlisting}[style=latexstyle]
-    \begin{circuitikz}[scale=1]
-        \CurrentSource[side1, terminal1][$A_5$][]{0,0}{2,2}
-        \CurrentSource[side1, terminal2][$A_6$][*-*]{0,0}{-2,2}
-        \CurrentSource[side2, terminal2][$A_7$][o-o]{0,0}{-2,-2}
-        \CurrentSource[side2, terminal1][$A_8$][v^>=$V_8$]{0,0}{2,-2}
-    \end{circuitikz}
+\begin{circuitikz}[scale=1]
+    \CurrentSource[side1, terminal1][$A_5$][]{0,0}{2,2}
+    \CurrentSource[side1, terminal2][$A_6$][*-*]{0,0}{-2,2}
+    \CurrentSource[side2, terminal2][$A_7$][o-o]{0,0}{-2,-2}
+    \CurrentSource[side2, terminal1][$A_8$][v^>=$V_8$]{0,0}{2,-2}
+\end{circuitikz}
 \end{lstlisting}
 
 \begin{center}
@@ -166,6 +181,106 @@ The only external dependencies are:
         \CurrentSource[side1, terminal2][$A_6$][*-*]{0,0}{-2,2}
         \CurrentSource[side2, terminal2][$A_7$][o-o]{0,0}{-2,-2}
         \CurrentSource[side2, terminal1][$A_8$][v^>=$V_8$]{0,0}{2,-2}
+    \end{circuitikz}
+\end{center}
+
+
+%---------------------
+\subsection{\texttt{\textbackslash cVoltageSource}}
+%---------------------
+
+\textbf{Signature:}
+\begin{verbatim}
+\cVoltageSource[side, terminal][<circuitikz options>]{<start>}{<end>}
+\end{verbatim}
+
+\textbf{Example 1:}
+
+\begin{lstlisting}[style=latexstyle]
+\begin{circuitikz}[scale=1]
+    \cVoltageSource[side1, terminal1][l=$E_0$]{0,0}{0,3}
+    \cVoltageSource[side1, terminal2][l=$E_1$, *-*]{2,0}{2,3}
+    \cVoltageSource[side2, terminal2][l_=$E_2$, o-o]{4,0}{4,3}
+    \cVoltageSource[side2, terminal1][l_=$E_3$, i=$I_3$]{6,0}{6,3}
+\end{circuitikz}
+\end{lstlisting}
+
+\begin{center}
+    \begin{circuitikz}
+            \cVoltageSource[side1, terminal1][l=$E_0$]{0,0}{0,3}
+            \cVoltageSource[side1, terminal2][l=$E_1$, *-*]{2,0}{2,3}
+            \cVoltageSource[side2, terminal2][l_=$E_2$, o-o]{4,0}{4,3}
+            \cVoltageSource[side2, terminal1][l_=$E_3$, i=$I_3$]{6,0}{6,3}
+    \end{circuitikz}
+\end{center}
+
+\textbf{Example 2:}
+
+\begin{lstlisting}[style=latexstyle]
+\begin{circuitikz}[scale=1]
+    \cVoltageSource[][*-o]{0,0}{2,2} % equivalent to side1, terminal1
+    \cVoltageSource[side1, terminal2][l=$E_4$, -o]{0,0}{-2,2}
+    \cVoltageSource[side2, terminal2][l=$E_5$, -o]{0,0}{-2,-2}
+    \cVoltageSource[side2, terminal1][-o]{0,0}{2,-2}
+\end{circuitikz}
+\end{lstlisting}
+
+\begin{center}
+    \begin{circuitikz}[scale=1]
+        \cVoltageSource[][*-o]{0,0}{2,2} % equivalent to side1, terminal1
+        \cVoltageSource[side1, terminal2][l=$E_4$, -o]{0,0}{-2,2}
+        \cVoltageSource[side2, terminal2][l=$E_5$, -o]{0,0}{-2,-2}
+        \cVoltageSource[side2, terminal1][-o]{0,0}{2,-2}
+    \end{circuitikz}
+\end{center}
+
+%---------------------
+\subsection{\texttt{\textbackslash cCurrentSource}}
+%---------------------
+
+\textbf{Signature:}
+\begin{verbatim}
+\cCurrentSource[side,terminal][<label>][<circuitikz options>]{<start>}{<end>}
+\end{verbatim}
+
+\textbf{Example 1:}
+
+\begin{lstlisting}[style=latexstyle]
+\begin{circuitikz}[scale=1]
+    \cCurrentSource[side1, terminal1][$A_1$]{0,0}{0,3}
+    \cCurrentSource[side1, terminal2][][*-*]{2.5,0}{2.5,3}
+    \cCurrentSource[side2, terminal2][$A_3$][o-o]{5,0}{5,3}
+    \cCurrentSource[side2, terminal1][$A_4$][v^=$V_4$]{7.5,0}{7.5,3}
+\end{circuitikz}
+\end{lstlisting}
+
+
+\begin{center}
+    \begin{circuitikz}[scale=1]
+        \cCurrentSource[side1, terminal1][$A_1$]{0,0}{0,3}
+        \cCurrentSource[side1, terminal2][][*-*]{2.5,0}{2.5,3}
+        \cCurrentSource[side2, terminal2][$A_3$][o-o]{5,0}{5,3}
+        \cCurrentSource[side2, terminal1][$A_4$][v^=$V_4$]{7.5,0}{7.5,3}
+    \end{circuitikz}
+\end{center}
+
+\textbf{Example 2:}
+
+\begin{lstlisting}[style=latexstyle]
+\begin{circuitikz}[scale=1]
+    \cCurrentSource[side1, terminal1][$A_5$][]{0,0}{2,2}
+    \cCurrentSource[side1, terminal2][$A_6$][*-*]{0,0}{-2,2}
+    \cCurrentSource[side2, terminal2][$A_7$][o-o]{0,0}{-2,-2}
+    \cCurrentSource[side2, terminal1][$A_8$][v^>=$V_8$]{0,0}{2,-2}
+\end{circuitikz}
+\end{lstlisting}
+
+\begin{center}
+    \begin{circuitikz}[scale=1]
+        \cCurrentSource[side1, terminal1][$A_5$][]{0,0}{2,2}
+        \cCurrentSource[side1, terminal2][$A_6$][*-*]{0,0}{-2,2}
+        \cCurrentSource[side2, terminal2][$A_7$][o-o]{0,0}{-2,-2}
+        \cCurrentSource[side2, terminal1][$A_8$][v^>=$V_8$]{0,0}{2,-2}
     \end{circuitikz}
 \end{center}
 
