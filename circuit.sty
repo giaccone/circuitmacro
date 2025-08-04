@@ -8,7 +8,10 @@
 
 % common settings
 \usetikzlibrary{decorations.pathmorphing}
-\ctikzset{label/align = straight, straight voltages}
+\ctikzset{label/align = straight}
+\ctikzset{voltage = straight}
+\ctikzset{bipoles/thickness=3}
+\ctikzset{bipoles/cuteswitch/thickness=0.5}
 
 %----------------------------
 % independent voltage source
@@ -129,7 +132,7 @@
 	\IfNoValueTF{#3}{\draw (vstart) to[I] (vend);}{\draw (vstart) to[I,#3] (vend);}
 
   	% draw arrow and the label
-  	\draw[-latex] let
+  	\draw[-{Triangle[width=4.5pt, length=5pt]}] let
 		\p1 = (vstart),
 		\p2 = (vend),
 		\p3 = ($(\p2)-(\p1)$),          % direction vector
@@ -137,11 +140,11 @@
 		% middle point
 		\p4 = ($0.5*(\p1)+0.5*(\p2)$),
 		% shift 
-		\p5 = ($(\p4) + (0.35*\x3/\n1*\terminal, 0.35*\y3/\n1*\terminal) + (-0.55*\y3/\n1*\side, 0.55*\x3/\n1*\side)$),
-		\p6 = ($(\p4) + (-0.35*\x3/\n1*\terminal, -0.35*\y3/\n1*\terminal) + (-0.55*\y3/\n1*\side, 0.55*\x3/\n1*\side)$),
-		\p7 = ($(\p4) + (-0.8*\y3/\n1*\side, 0.8*\x3/\n1*\side)$)
+		\p5 = ($(\p4) + (0.4*\x3/\n1*\terminal, 0.4*\y3/\n1*\terminal) + (-0.55*\y3/\n1*\side, 0.55*\x3/\n1*\side)$),
+		\p6 = ($(\p4) + (-0.4*\x3/\n1*\terminal, -0.4*\y3/\n1*\terminal) + (-0.55*\y3/\n1*\side, 0.55*\x3/\n1*\side)$),
+		\p7 = ($(\p4) + (-0.85*\y3/\n1*\side, 0.85*\x3/\n1*\side)$)
   		  in 
-       (\p5) -- (\p6) node at (\p7) [] {#2};  % memo: \StrBehind{#2}{=} if you want to remove everithing before '='
+       \IfNoValueTF{#3}{(\p5) -- (\p6)}{(\p5) -- (\p6) node at (\p7) [] {#2}};  % memo: \StrBehind{#2}{=} if you want to remove everithing before '='
 }
 
 %----------------------------
@@ -438,7 +441,7 @@
   	\coordinate (vend) at (#4);
 
 	% put the resistor with or without optional parameters
-	\IfNoValueTF{#2}{\draw (vstart) to[#1 switch] (vend);}{\draw (vstart) to[#1 switch, #2] (vend);}
+	\IfNoValueTF{#2}{\draw (vstart) to[cute #1 switch] (vend);}{\draw (vstart) to[cute #1 switch, #2] (vend);}
 }
 
 %----------------------------
@@ -558,7 +561,7 @@
 
 
     \IfEq{#1}{vertical}{
-        \draw ($(#4) + (-1, -2)$) rectangle ($(#4) + (1, 2)$);
+        \draw[line width=1.2pt] ($(#4) + (-1, -2)$) rectangle ($(#4) + (1, 2)$);
         
         \IfValueT{#2}{
             \IfValueT{#3}{
@@ -577,7 +580,7 @@
     }{}
     
     \IfEq{#1}{horizontal}{
-        \draw ($(#4) + (-2, -1)$) rectangle ($(#4) + (2, 1)$);
+        \draw[line width=1.2pt] ($(#4) + (-2, -1)$) rectangle ($(#4) + (2, 1)$);
         
         \IfValueT{#2}{
             \IfValueT{#3}{
