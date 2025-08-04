@@ -1,4 +1,4 @@
-\ProvidesPackage{circuit}[2025/07/28 circuit 0.01]
+\ProvidesPackage{circuitmacro}[2025/07/28 circuit 0.01]
 % this package provide macros based on circuitikz plus
 % some default settings (e.g. label/align = straight, straight voltages)
 
@@ -86,34 +86,41 @@
 %----------------------------
 \NewDocumentCommand{\CurrentSource}{O{side1, terminal1} o o m m}{
 	% ----------------------------------------------------------------
-    % \CurrentSource[side, terminal, label position][<circuitikz options>]{<start>}{<end>}
+    % \CurrentSource[side,terminal][<label>][<circuitikz options>]{<start>}{<end>}
     %
-    % Draws an independent current source with a curved arrow indicating direction,
-    % and a user-defined label placed near the arrow.
+    % Draws an independent current source with an oriented arrow and optional label,
+    % using the `circuitikz` I component and a custom-drawn arrow for direction.
     %
     % Arguments:
-    % - Optional [side, terminal, label position] (default: side1, terminal1, left):
-    %     * "side1" or "side2" determines which side of the component the arrow and label appear on
-    %     * "terminal1" or "terminal2" controls the arrow direction (positive flow)
+    % - Optional [side, terminal] (default: side1, terminal1):
+    %     * "side1" or "side2" which side of the arrow the label and arrow appear
+    %     * "terminal1" or "terminal2" direction of current flow
+    %
+    % - Optional [<label>]:
+    %     * An optional LaTeX expression to be displayed near the current arrow (e.g., $I$)
+    %
     % - Optional [<circuitikz options>]:
-    %     * Any circuitikz options for the component (e.g. i>^=$I$)
+    %     * Any valid options for the circuitikz I element (e.g., name=I1, i^>=$I_0$)
+    %
     % - Mandatory {<start>}, {<end>}:
-    %     * Coordinate pairs **without parentheses**, e.g., {0,0} and {2,1}
+    %     * Coordinate pairs **without parentheses**, e.g., {0,0} and {0,3}
     %
     % How it works:
-    % - The macro places a circuitikz current source (I) between the given coordinates
-    % - It draws an arrow to indicate current flow, oriented by "terminal1"/"terminal2"
-    % - The arrow and label are offset orthogonally using normalized geometry
-    % - The label content is the first optional parameter (#2), and is placed relative to the arrow tip
+    % - The current source is drawn using `to[I]` or `to[I,<options>]`
+    % - An arrow is manually drawn using TikZ, centered on the component,
+    %   and scaled/directed according to `terminal1` or `terminal2`
+    % - The arrow and label are positioned orthogonally with respect to the source
     %
     % Example usage:
-    % \CurrentSource{0,0}{0,2}                                      % default: side1, terminal1, left
-    % \CurrentSource[side2,terminal2][i>^=$I$]{0,0}{2,1}            % flipped polarity and label on right
+    % \CurrentSource{0,0}{0,3}                                       % default direction, no label
+    % \CurrentSource[side2, terminal2][$I$]{2,0}{2,3}                % custom arrow direction and label
+    % \CurrentSource[side1, terminal2][$I_0$][name=I1]{4,0}{4,3}     % with label and circuitikz options
     %
     % Notes:
-    % - The direction vector is scaled by the component length
-    % - The arrow is drawn manually using TikZ, not by circuitikz
     % - Coordinates must be passed without parentheses
+    % - The arrow orientation is manually computed and scaled
+    % - Compatible with all circuitikz styling and positioning options
+    % - Ideal for representing active current sources with visual flow indication
     %
     % Author: Luca Giaccone (luca.giaccone@polito.it)
     % Date: 29.07.2025
@@ -144,7 +151,7 @@
 		\p6 = ($(\p4) + (-0.4*\x3/\n1*\terminal, -0.4*\y3/\n1*\terminal) + (-0.65*\y3/\n1*\side, 0.65*\x3/\n1*\side)$),
 		\p7 = ($(\p4) + (-0.95*\y3/\n1*\side, 0.95*\x3/\n1*\side)$)
   		  in 
-       \IfNoValueTF{#3}{(\p5) -- (\p6)}{(\p5) -- (\p6) node at (\p7) [] {#2}};  % memo: \StrBehind{#2}{=} if you want to remove everithing before '='
+       \IfNoValueTF{#2}{(\p5) -- (\p6)}{(\p5) -- (\p6) node at (\p7) [] {#2}};  % memo: \StrBehind{#2}{=} if you want to remove everithing before '='
 }
 
 %----------------------------
@@ -152,7 +159,7 @@
 %----------------------------
 \NewDocumentCommand{\cVoltageSource}{O{side1, terminal1} o m m}{
 	% ----------------------------------------------------------------
-    % \CVoltageSource[side,terminal][<circuitikz options>]{<start>}{<end>}
+    % \cVoltageSource[side,terminal][<circuitikz options>]{<start>}{<end>}
     %
     % Draws a controlled voltage source between two points, with a
     % correctly placed "+" sign indicating polarity.
@@ -220,34 +227,41 @@
 %----------------------------
 \NewDocumentCommand{\cCurrentSource}{O{side1, terminal1} o o m m}{
 	% ----------------------------------------------------------------
-    % \cCurrentSource[side, terminal, label position][<circuitikz options>]{<start>}{<end>}
+    % \cCurrentSource[side,terminal][<label>][<circuitikz options>]{<start>}{<end>}
     %
-    % Draws an independent current source with a curved arrow indicating direction,
-    % and a user-defined label placed near the arrow.
+    % Draws an independent current source with an oriented arrow and optional label,
+    % using the `circuitikz` I component and a custom-drawn arrow for direction.
     %
     % Arguments:
-    % - Optional [side, terminal, label position] (default: side1, terminal1, left):
-    %     * "side1" or "side2" determines which side of the component the arrow and label appear on
-    %     * "terminal1" or "terminal2" controls the arrow direction (positive flow)
+    % - Optional [side, terminal] (default: side1, terminal1):
+    %     * "side1" or "side2" which side of the arrow the label and arrow appear
+    %     * "terminal1" or "terminal2" direction of current flow
+    %
+    % - Optional [<label>]:
+    %     * An optional LaTeX expression to be displayed near the current arrow (e.g., $I$)
+    %
     % - Optional [<circuitikz options>]:
-    %     * Any circuitikz options for the component (e.g. i>^=$I$)
+    %     * Any valid options for the circuitikz I element (e.g., name=I1, i^>=$I_0$)
+    %
     % - Mandatory {<start>}, {<end>}:
-    %     * Coordinate pairs **without parentheses**, e.g., {0,0} and {2,1}
+    %     * Coordinate pairs **without parentheses**, e.g., {0,0} and {0,3}
     %
     % How it works:
-    % - The macro places a circuitikz current source (I) between the given coordinates
-    % - It draws an arrow to indicate current flow, oriented by "terminal1"/"terminal2"
-    % - The arrow and label are offset orthogonally using normalized geometry
-    % - The label content is the first optional parameter (#2), and is placed relative to the arrow tip
+    % - The current source is drawn using `to[I]` or `to[I,<options>]`
+    % - An arrow is manually drawn using TikZ, centered on the component,
+    %   and scaled/directed according to `terminal1` or `terminal2`
+    % - The arrow and label are positioned orthogonally with respect to the source
     %
     % Example usage:
-    % \cCurrentSource{0,0}{0,2}                                      % default: side1, terminal1, left
-    % \cCurrentSource[side2,terminal2][i>^=$I$]{0,0}{2,1}            % flipped polarity and label on right
+    % \cCurrentSource{0,0}{0,3}                                       % default direction, no label
+    % \cCurrentSource[side2, terminal2][$I$]{2,0}{2,3}                % custom arrow direction and label
+    % \cCurrentSource[side1, terminal2][$I_0$][name=I1]{4,0}{4,3}     % with label and circuitikz options
     %
     % Notes:
-    % - The direction vector is scaled by the component length
-    % - The arrow is drawn manually using TikZ, not by circuitikz
     % - Coordinates must be passed without parentheses
+    % - The arrow orientation is manually computed and scaled
+    % - Compatible with all circuitikz styling and positioning options
+    % - Ideal for representing active current sources with visual flow indication
     %
     % Author: Luca Giaccone (luca.giaccone@polito.it)
     % Date: 04.08.2025
@@ -278,7 +292,7 @@
 		\p6 = ($(\p4) + (-0.4*\x3/\n1*\terminal, -0.4*\y3/\n1*\terminal) + (-0.65*\y3/\n1*\side, 0.65*\x3/\n1*\side)$),
 		\p7 = ($(\p4) + (-0.95*\y3/\n1*\side, 0.95*\x3/\n1*\side)$)
   		  in 
-       \IfNoValueTF{#3}{(\p5) -- (\p6)}{(\p5) -- (\p6) node at (\p7) [] {#2}};  % memo: \StrBehind{#2}{=} if you want to remove everithing before '='
+       \IfNoValueTF{#2}{(\p5) -- (\p6)}{(\p5) -- (\p6) node at (\p7) [] {#2}};  % memo: \StrBehind{#2}{=} if you want to remove everithing before '='
 }
 
 %----------------------------
