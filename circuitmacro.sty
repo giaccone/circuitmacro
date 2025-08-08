@@ -1184,7 +1184,7 @@
     % \YLoad — Draw a Star (Y) Connected Load
     %
     % Syntax:
-    %   \YLoad* [<bipole type>] {<length>} {<coord1>} {<coord2>} {<phase-shift>}
+    %   \YLoad* [<bipole type>] {<scale>} {<coord1>} {<coord2>} {<gap>}
     %          {<label-phase3>} {<label-phase2>} {<label-phase1>}
     %
     % Description:
@@ -1203,11 +1203,11 @@
     %                          R — resistor
     %                          L — inductor
     %                          C — capacitor
-    %   {<length>}       — Nominal branch length, scaled internally by 1.4 to set
+    %   {<scale>}       — Nominal branch length, scaled internally by 1.4 to set
     %                      `bipoles/length` in cm.
     %   {<coord1>}       — Coordinate of the outer connection point for phase 2.
     %   {<coord2>}       — Coordinate of the neutral connection point for phase 2.
-    %   {<phase-shift>}  — Perpendicular offset from the main axis to define the
+    %   {<gap>}          — Perpendicular offset from the main axis to define the
     %                      outer connection points of phase 1 and phase 3.
     %   {<label-phase3>} — Label for phase 3 branch, in math mode.
     %   {<label-phase2>} — Label for phase 2 branch, in math mode.
@@ -1235,7 +1235,7 @@
     % Notes:
     %   - Coordinates must be provided without parentheses.
     %   - Labels are in math mode automatically (`$...$` not required in input).
-    %   - `<phase-shift>` controls how far phases 1 and 3 are from phase 2 axis.
+    %   - `<gap>` controls how far phases 1 and 3 are from phase 2 axis.
     %    
     % Author: Luca Giaccone (luca.giaccone@polito.it)
     % Date: 07.078.2025
@@ -1296,7 +1296,7 @@
     % \DLoad — Draw a Delta (Δ) Connected Load
     %
     % Syntax:
-    %   \DLoad* [<bipole type>] {<length>} {<coord1>} {<coord2>} {<phase-shift>}
+    %   \DLoad* [<bipole type>] {<length>} {<coord1>} {<coord2>} {<gap>}
     %          {<label-branch2>} {<label-branch1>} {<label-branch3>}
     %
     % Description:
@@ -1317,7 +1317,7 @@
     %                      `bipoles/length` in cm.
     %   {<coord1>}       — Coordinate of one end of the main delta axis.
     %   {<coord2>}       — Coordinate of the other end of the main delta axis.
-    %   {<phase-shift>}  — Perpendicular offset from the main axis to position
+    %   {<gap>}  — Perpendicular offset from the main axis to position
     %                      the upper and lower vertices of the triangle.
     %   {<label-branch2>} — Label for branch between the central vertex and the upper vertex.
     %   {<label-branch1>} — Label for branch between the central vertex and the lower vertex.
@@ -1325,7 +1325,7 @@
     %
     % Behaviour:
     %   - The macro computes the triangle vertices from the given axis and
-    %     `<phase-shift>`, then connects them with the selected `<bipole type>`.
+    %     `<gap>`, then connects them with the selected `<bipole type>`.
     %   - `<length>` controls the size of each branch and is scaled internally
     %     for visual proportions.
     %   - Labels are placed according to the star-argument (`*`).
@@ -1346,7 +1346,7 @@
     % Notes:
     %   - Coordinates must be written without parentheses.
     %   - Labels are automatically typeset in math mode.
-    %   - `<phase-shift>` determines the triangle’s height relative to the base axis.
+    %   - `<gap>` determines the triangle’s height relative to the base axis.
     %
     % Author: Luca Giaccone (luca.giaccone@polito.it)
     % Date: 07.078.2025
