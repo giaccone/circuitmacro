@@ -32,7 +32,8 @@
   rulecolor=\color{black},
   breaklines=true,
   language=[LaTeX]TeX,
-  morekeywords={VoltageSource, circuitikz}, % add your macro names here
+  morekeywords={R, L, C, B, SwOpen, SwClosed, Short, Open, Vs, Is, cVs, cIs,
+    V, I, Nodes, Terminal, Label, PLoad, YLoad, DLoad, triLine, triShort, triGen}, % add your macro names here
   moredelim=**[is][\color{darkblue}]{@}{@}, % for custom highlighting
 }
 
@@ -685,6 +686,7 @@ Put the file either in project directory or in the \texttt{TEXHOME} tree. These 
         \draw [-latex,dashed, gray, line width=1.5pt] (-2, 0) -- (-0.1,0) node [midway, above] {start};
         \draw [-latex,dashed, gray, line width=1.5pt] (5, 1) -- (3.1,0) node [midway, above] {end\hspace{10pt} };
         \draw [latex-latex,dashed, gray, line width=1.5pt] (0, -0.1) -- (0,-1.9) node [midway, left] {gap};
+        \draw [latex-latex,dashed, gray, line width=1.5pt] (0, 2.2) -- (1.2,2.2) node [midway, above] {40\% (end - start)};
     \end{circuitikz}
 \end{center}
 
@@ -800,7 +802,7 @@ Put the file either in project directory or in the \texttt{TEXHOME} tree. These 
 \subsection{Example 1: first order circuit}
 
 \begin{lstlisting}[style=latexstyle]
-\begin{circuitikz}[scale=1]
+\begin{circuitikz}
     \Vs{0,3}{0,0}{E_1}
     \R{0,3}{3,3}{R_1}
     \R{0,0}{3,0}{R_2}
@@ -815,7 +817,7 @@ Put the file either in project directory or in the \texttt{TEXHOME} tree. These 
 \end{lstlisting}
 
 \begin{center}
-	\begin{circuitikz}[scale=1]
+	\begin{circuitikz}
 		\Vs{0,3}{0,0}{E_1}
 		\R{0,3}{3,3}{R_1}
 		\R{0,0}{3,0}{R_2}
@@ -829,10 +831,11 @@ Put the file either in project directory or in the \texttt{TEXHOME} tree. These 
 	\end{circuitikz}
 \end{center}
 
+\newpage
 \subsection{Example 2: AC Circuit}
 
 \begin{lstlisting}[style=latexstyle]
-\begin{circuitikz}[scale=1]
+\begin{circuitikz}
     \Vs{0,6}{0,0}{\bar{E}_1}
     \Is[*-*]{3,3}{6,3}{\bar{A}_1}
     \B[*-, v<=$\bar{V}_1$]{3,6}{3,3}{\bar{Z}_1}
@@ -845,7 +848,7 @@ Put the file either in project directory or in the \texttt{TEXHOME} tree. These 
 \end{lstlisting}
 
 \begin{center}
-	\begin{circuitikz}[scale=1]
+	\begin{circuitikz}
 		\Vs{0,6}{0,0}{\bar{E}_1}
 		\Is[*-*]{3,3}{6,3}{\bar{A}_1}
 		\B[*-, v<=$\bar{V}_1$]{3,6}{3,3}{\bar{Z}_1}
@@ -857,6 +860,7 @@ Put the file either in project directory or in the \texttt{TEXHOME} tree. These 
 	\end{circuitikz}   
 \end{center}
 
+\newpage
 \subsection{Example 3: Three-Phase Circuit}
 
 \begin{lstlisting}[style=latexstyle]
