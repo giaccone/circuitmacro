@@ -633,23 +633,23 @@ Put the file either in project directory or in the \texttt{TEXHOME} tree. These 
 %---------------------
 \textbf{Signature:}
 \begin{verbatim}
-\YLoad[B|R|L|C]{scale}{start}{end}{gap}{label1}{label2}{label3}
+\YLoad[scale][B|R|L|C]{start}{end}{gap}{label1}{label2}{label3}
 \end{verbatim}
 
 \textbf{Example:}
 \begin{lstlisting}[style=latexstyle]
 \begin{circuitikz}
-    \YLoad{1}{0,0}{3,0}{2}{\bar{Z}}{}{}
-    \YLoad[R]{0.8}{7,-1}{8.5,1}{1.5}{R_1}{R_2}{R_3}
-    \YLoad*[C]{0.5}{13,0}{11,0}{1}{C}{}{}
+    \YLoad{0,0}{3,0}{2}{\bar{Z}}{}{}
+    \YLoad[0.8][R]{7,-1}{8.5,1}{1.5}{R_1}{R_2}{R_3}
+    \YLoad*[0.5][C]{13,0}{11,0}{1}{C}{}{}
 \end{circuitikz}
 \end{lstlisting}
 
 \begin{center}
     \begin{circuitikz}
-        \YLoad{1}{0,0}{3,0}{2}{\bar{Z}}{}{}
-        \YLoad[R]{0.8}{7,-1}{8.5,1}{1.5}{R_1}{R_2}{R_3}
-        \YLoad*[C]{0.5}{13,0}{11,0}{1}{C}{}{}
+        \YLoad{0,0}{3,0}{2}{\bar{Z}}{}{}
+        \YLoad[0.8][R]{7,-1}{8.5,1}{1.5}{R_1}{R_2}{R_3}
+        \YLoad*[0.5][C]{13,0}{11,0}{1}{C}{}{}
 
         \Nodes*{0,0}
         \draw [-latex,dashed, gray, line width=1.5pt] (-2, 0) -- (-0.1,0) node [midway, above] {start};
@@ -663,23 +663,23 @@ Put the file either in project directory or in the \texttt{TEXHOME} tree. These 
 %---------------------
 \textbf{Signature:}
 \begin{verbatim}
-\DLoad[B|R|L|C]{scale}{start}{end}{gap}{label1}{label2}{label3}
+\DLoad[scale][B|R|L|C]{start}{end}{gap}{label1}{label2}{label3}
 \end{verbatim}
 
 \textbf{Example:}
 \begin{lstlisting}[style=latexstyle]
 \begin{circuitikz}
-    \DLoad{1}{0,0}{3,0}{2}{\bar{Z}_1}{\bar{Z}_2}{\bar{Z}_3}
-    \DLoad{0.5}{7,0}{10,0}{2}{\bar{Z}_1}{\bar{Z}_2}{\bar{Z}_3}
-    \DLoad[R]{0.5}{4,-5}{6,-3}{2}{R}{}{}
+    \DLoad{0,0}{3,0}{2}{\bar{Z}_1}{\bar{Z}_2}{\bar{Z}_3}
+    \DLoad[0.5]{7,0}{10,0}{2}{\bar{Z}_1}{\bar{Z}_2}{\bar{Z}_3}
+    \DLoad[0.5][R]{5,-4}{6,-3}{1}{R}{}{}
 \end{circuitikz}
 \end{lstlisting}
 
 \begin{center}
     \begin{circuitikz}
-        \DLoad{1}{0,0}{3,0}{2}{\bar{Z}_1}{\bar{Z}_2}{\bar{Z}_3}
-        \DLoad{0.5}{7,0}{10,0}{2}{\bar{Z}_1}{\bar{Z}_2}{\bar{Z}_3}
-        \DLoad[R]{0.5}{5,-4}{6,-3}{1}{R}{}{}
+        \DLoad{0,0}{3,0}{2}{\bar{Z}_1}{\bar{Z}_2}{\bar{Z}_3}
+        \DLoad[0.5]{7,0}{10,0}{2}{\bar{Z}_1}{\bar{Z}_2}{\bar{Z}_3}
+        \DLoad[0.5][R]{5,-4}{6,-3}{1}{R}{}{}
         
 
         \Nodes*{0,0}{3,0}
@@ -695,23 +695,23 @@ Put the file either in project directory or in the \texttt{TEXHOME} tree. These 
 %---------------------
 \textbf{Signature:}
 \begin{verbatim}
-\triLine[B|R|L|C]{scale}{start}{end}{gap}{label1}{label2}{label3}
+\triLine[scale][B|R|L|C]{start}{end}{gap}{label1}{label2}{label3}
 \end{verbatim}
 
 \textbf{Example:}
 \begin{lstlisting}[style=latexstyle]
 \begin{circuitikz}
-    \triLine{1}{0,0}{3,0}{2}{\bar{Z}}{}{}
-    \triLine[R]{0.8}{7,-1}{8.5,1}{1.5}{R_1}{R_2}{R_3}
-    \triLine*[C]{0.5}{13,0}{11,0}{1}{C}{}{}
+    \triLine{0,0}{3,0}{2}{\bar{Z}}{}{}
+    \triLine[0.8][R]{7,-1}{8.5,1}{1.5}{R_1}{R_2}{R_3}
+    \triLine*[0.5][C]{13,0}{11,0}{1}{C}{}{}
 \end{circuitikz}
 \end{lstlisting}
 
 \begin{center}
     \begin{circuitikz}
-        \triLine{1}{0,0}{3,0}{2}{\bar{Z}}{}{}
-        \triLine[R]{0.8}{7,-1}{8.5,1}{1.5}{R_1}{R_2}{R_3}
-        \triLine*[C]{0.5}{13,0}{11,0}{1}{C}{}{}
+        \triLine{0,0}{3,0}{2}{\bar{Z}}{}{}
+        \triLine[0.8][R]{7,-1}{8.5,1}{1.5}{R_1}{R_2}{R_3}
+        \triLine*[0.5][C]{13,0}{11,0}{1}{C}{}{}
 
         \Nodes*{0,0}{3,0}
         \draw [-latex,dashed, gray, line width=1.5pt] (-2, 0) -- (-0.1,0) node [midway, above] {start};
@@ -777,7 +777,7 @@ Put the file either in project directory or in the \texttt{TEXHOME} tree. These 
 \begin{circuitikz}
     \triGen{0,0}{3,0}{2}{\bar{E}_1}{\bar{E}_2}{\bar{E}_3}
     \triGen*{8,-2}{11,1}{2}{\bar{E}_1}{\bar{E}_2}{\bar{E}_3}
-    \triGen[I]{5,-3}{5,-6}{2}{\bar{A}_1}{\bar{A}_2}{\bar{A}_3}
+    \triGen[1][I]{5,-3}{5,-6}{2}{\bar{A}_1}{\bar{A}_2}{\bar{A}_3}
 \end{circuitikz}
 \end{lstlisting}
 
@@ -785,7 +785,7 @@ Put the file either in project directory or in the \texttt{TEXHOME} tree. These 
     \begin{circuitikz}
         \triGen{0,0}{3,0}{2}{\bar{E}_1}{\bar{E}_2}{\bar{E}_3}
         \triGen*{8,-2}{11,1}{2}{\bar{E}_1}{\bar{E}_2}{\bar{E}_3}
-        \triGen[I]{5,-3}{5,-6}{2}{\bar{A}_1}{\bar{A}_2}{\bar{A}_3}
+        \triGen[1][I]{5,-3}{5,-6}{2}{\bar{A}_1}{\bar{A}_2}{\bar{A}_3}
 
         \Nodes*{3,0}
         \draw[-latex, dashed, gray, line width=1.5pt] (-2,0) -- (-0.1,0) node [midway, above] {start};
@@ -889,7 +889,7 @@ Put the file either in project directory or in the \texttt{TEXHOME} tree. These 
     \begin{circuitikz}
         % generator and line
         \triGen{0,4}{2,4}{1.8}{\bar{E}_1}{\bar{E}_2}{\bar{E}_3}
-        \triLine{1}{2,4}{4.5,4}{1.8}{\bar{Z}_L}{}{}
+        \triLine{2,4}{4.5,4}{1.8}{\bar{Z}_L}{}{}
     
         % load A
         \triShort{4.5, 4}{9, 4}{1.8}

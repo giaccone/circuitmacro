@@ -1179,12 +1179,12 @@
 %----------------------------
 % star connected load
 %----------------------------
-\NewDocumentCommand{\YLoad}{s O{B} m m m m m m m}{
+\NewDocumentCommand{\YLoad}{s O{1} O{B} m m m m m m}{
     % --------------------------------------------------------------------------
     % \YLoad — Draw a Star (Y) Connected Load
     %
     % Syntax:
-    %   \YLoad* [<bipole type>] {<scale>} {<coord1>} {<coord2>} {<gap>}
+    %   \YLoad* [<scale>] [<bipole type>] {<coord1>} {<coord2>} {<gap>}
     %          {<label-phase3>} {<label-phase2>} {<label-phase1>}
     %
     % Description:
@@ -1245,18 +1245,18 @@
     % select side for label
     \IfBooleanTF{#1}{\def\side{l_}}{\def\side{l}}
     % scale length
-    \pgfmathsetmacro{\scaledlength}{#3 * 1.4}
+    \pgfmathsetmacro{\scaledlength}{#2 * 1.4}
     % select bipole
-    \IfSubStr{#2}{B}{
+    \IfSubStr{#3}{B}{
         \def\bipole{generic}
     }{
-        \IfSubStr{#2}{R}{
+        \IfSubStr{#3}{R}{
             \def\bipole{R}
         }{
-            \IfSubStr{#2}{L}{
+            \IfSubStr{#3}{L}{
                 \def\bipole{L}
             }{
-                \IfSubStr{#2}{C}{
+                \IfSubStr{#3}{C}{
                     \def\bipole{C}
                 }{
                     % do nothing here
@@ -1291,12 +1291,12 @@
 %----------------------------
 % triangle connected load
 %----------------------------
-\NewDocumentCommand{\DLoad}{s O{B} m m m m m m m}{
+\NewDocumentCommand{\DLoad}{s O{1} O{B}  m m m m m m}{
     % --------------------------------------------------------------------------
     % \DLoad — Draw a Delta (Δ) Connected Load
     %
     % Syntax:
-    %   \DLoad* [<bipole type>] {<length>} {<coord1>} {<coord2>} {<gap>}
+    %   \DLoad* [<scale>] [<bipole type>] {<coord1>} {<coord2>} {<gap>}
     %          {<label-branch2>} {<label-branch1>} {<label-branch3>}
     %
     % Description:
@@ -1313,7 +1313,7 @@
     %                          R — resistor
     %                          L — inductor
     %                          C — capacitor
-    %   {<length>}       — Nominal branch length, scaled internally by 1.4 to set
+    %   {<scale>}       — Nominal branch length, scaled internally by 1.4 to set
     %                      `bipoles/length` in cm.
     %   {<coord1>}       — Coordinate of one end of the main delta axis.
     %   {<coord2>}       — Coordinate of the other end of the main delta axis.
@@ -1357,18 +1357,18 @@
     % define shift
     \pgfmathsetmacro{\shift}{#6 * 0.5}
     % scale length
-    \pgfmathsetmacro{\scaledlength}{#3 * 1.4}
+    \pgfmathsetmacro{\scaledlength}{#2 * 1.4}
     % select bipole
-    \IfSubStr{#2}{B}{
+    \IfSubStr{#3}{B}{
         \def\bipole{generic}
     }{
-        \IfSubStr{#2}{R}{
+        \IfSubStr{#3}{R}{
             \def\bipole{R}
         }{
-            \IfSubStr{#2}{L}{
+            \IfSubStr{#3}{L}{
                 \def\bipole{L}
             }{
-                \IfSubStr{#2}{C}{
+                \IfSubStr{#3}{C}{
                     \def\bipole{C}
                 }{
                     % do nothing here
@@ -1405,19 +1405,19 @@
 %----------------------------
 % three phase line
 %----------------------------
-\NewDocumentCommand{\triLine}{s O{B} m m m m m m m}{
+\NewDocumentCommand{\triLine}{s O{1} O{B} m m m m m m}{
     % --------------------------------------------------------------------------
     % \triLine — Draw a Three-Phase Transmission Line
     %
     % Syntax:
-    %   \triLine* [<bipole type>] {<length>} {<coord1>} {<coord2>} {<offset>}
+    %   \triLine* [<scale>] [<bipole type>] {<coord1>} {<coord2>} {<gap>}
     %            {<label phase A>} {<label phase B>} {<label phase C>}
     %
     % Description:
     %   Draws a three-phase line composed of three parallel bipoles (e.g., generic,
     %   resistor, inductor, capacitor), equally spaced and oriented perpendicularly
     %   to the main axis defined by two coordinates. Each phase is labelled
-    %   independently and the element length is scaled according to {<length>}.
+    %   independently and the element length is scaled according to {<scale>}.
     %
     % Arguments:
     %   * (star)               — Optional boolean form. If present, places labels
@@ -1427,11 +1427,11 @@
     %                             - `R`: resistor
     %                             - `L`: inductor
     %                             - `C`: capacitor
-    %   {<length>}             — Nominal length of each bipole (in cm) before scaling.
+    %   {<scale>}             — Nominal scale of each bipole (in cm) before scaling.
     %                             Actual length = {<length>} × 1.4.
     %   {<coord1>}             — First coordinate of the main axis (start point).
     %   {<coord2>}             — Second coordinate of the main axis (end point).
-    %   {<offset>}             — Perpendicular distance from the main axis to each
+    %   {<gap>}                — Perpendicular distance from the main axis to each
     %                             outer phase (in cm).
     %   {<label phase A>}      — Label for the central phase (coordinate {<coord1>}→{<coord2>}).
     %   {<label phase B>}      — Label for the upper phase.
@@ -1469,18 +1469,18 @@
     % select side for label
     \IfBooleanTF{#1}{\def\side{l_}}{\def\side{l}}
     % scale length
-    \pgfmathsetmacro{\scaledlength}{#3 * 1.4}
+    \pgfmathsetmacro{\scaledlength}{#2 * 1.4}
     % select bipole
-    \IfSubStr{#2}{B}{
+    \IfSubStr{#3}{B}{
         \def\bipole{generic}
     }{
-        \IfSubStr{#2}{R}{
+        \IfSubStr{#3}{R}{
             \def\bipole{R}
         }{
-            \IfSubStr{#2}{L}{
+            \IfSubStr{#3}{L}{
                 \def\bipole{L}
             }{
-                \IfSubStr{#2}{C}{
+                \IfSubStr{#3}{C}{
                     \def\bipole{C}
                 }{
                     % do nothing here
@@ -1514,12 +1514,12 @@
 %----------------------------
 % three-phase generator
 %----------------------------
-\NewDocumentCommand{\triGen}{s O{V} O{1} m m m m m m}{
+\NewDocumentCommand{\triGen}{s O{1} O{V} m m m m m m}{
     % --------------------------------------------------------------------------
     % \triGen — Draw a Three-Phase Generator (Voltage or Current Source)
     %
     % Syntax:
-    %   \triGen* [<source type>] [<scale>] {<coord1>} {<coord2>} {<offset>}
+    %   \triGen* [<scale>] [<source type>] {<coord1>} {<coord2>} {<gap>}
     %           {<label-phaseA>} {<label-phaseB>} {<label-phaseC>}
     %
     % Description:
@@ -1537,7 +1537,7 @@
     %                        by 1.4 to set `bipoles/length` in cm (default: 1).
     %   {<coord1>}        — First coordinate of the generator axis.
     %   {<coord2>}        — Second coordinate of the generator axis.
-    %   {<offset>}        — Perpendicular offset for phase connections relative to axis.
+    %   {<gap>}           — Perpendicular offset for phase connections relative to axis.
     %   {<label-phaseA>}  — Label for phase between upper node and offset terminal.
     %   {<label-phaseB>}  — Label for phase between axis nodes.
     %   {<label-phaseC>}  — Label for phase between lower node and offset terminal.
@@ -1571,7 +1571,7 @@
     % --------------------------------------------------------------------------
 
     % scale length
-    \pgfmathsetmacro{\scaledlength}{#3 * 1.4}
+    \pgfmathsetmacro{\scaledlength}{#2 * 1.4}
     
     % get coordinates
 	\coordinate (plus) at (#4);
@@ -1598,7 +1598,7 @@
     };
 
     % select bipole
-    \IfSubStr{#2}{V}{
+    \IfSubStr{#3}{V}{
         \IfBooleanTF{#1}{
             \Vs*[bipoles/length=\scaledlength cm]{P7}{P6}{#7}
             \Vs*[bipoles/length=\scaledlength cm]{P2}{P1}{#8}
@@ -1608,7 +1608,7 @@
             \Vs[bipoles/length=\scaledlength cm]{P2}{P1}{#8}
             \Vs[bipoles/length=\scaledlength cm]{P5}{P4}{#9}}
     }{
-        \IfSubStr{#2}{I}{
+        \IfSubStr{#3}{I}{
             \IfBooleanTF{#1}{
                 \Is*{P6}{P7}{#7}
                 \Is*{P1}{P2}{#8}
@@ -1635,7 +1635,7 @@
     % \triShort — Draw a Three-Phase Short Connection
     %
     % Syntax:
-    %   \triShort* [<circuitikz options>] [<gap>] {<coord1>} {<coord2>} {<offset>}
+    %   \triShort* [<circuitikz options>] [<cut>] {<coord1>} {<coord2>} {<offset>}
     %
     % Description:
     %   Draws a short-circuit representation for a three-phase connection, with
@@ -1647,7 +1647,7 @@
     %                            side on which the perpendicular offsets are placed.
     %   [<circuitikz options>] — Optional key–value options passed to each `\Short`
     %                            element (e.g., `line width=1pt`, `color=red`).
-    %   [<gap>]               — Optional longitudinal gap along the axis (in cm)
+    %   [<cut>]               — Optional longitudinal cut along the axis (in cm)
     %                            between the main reference coordinate and where
     %                            the shorts are actually drawn. Default: 0.
     %   {<coord1>}            — First coordinate of the main axis (start point).
