@@ -94,7 +94,7 @@ Notes on the optionals (based on your definitions):
 \begin{circuitikz}
     % generator and line
     \triGen{0,4}{2,4}{1.8}{\bar{E}_1}{\bar{E}_2}{\bar{E}_3}
-    \triLine{1}{2,4}{4.5,4}{1.8}{\bar{Z}_L}{}{}
+    \triLine{2,4}{4.5,4}{1.8}{\bar{Z}_L}{}{}
 
     % load A
     \triShort{4.5, 4}{9, 4}{1.8}

@@ -864,25 +864,25 @@ Put the file either in project directory or in the \texttt{TEXHOME} tree. These 
 \subsection{Example 3: Three-Phase Circuit}
 
 \begin{lstlisting}[style=latexstyle]
-\begin{circuitikz}
-    % generator and line
-    \triGen{0,4}{2,4}{1.8}{\bar{E}_1}{\bar{E}_2}{\bar{E}_3}
-    \triLine{1}{2,4}{4.5,4}{1.8}{\bar{Z}_L}{}{}
-
-    % load A
-    \triShort{4.5, 4}{9, 4}{1.8}
-    \PLoad[P_A][Q_A]{2}{4.5}{9,4}
+    \begin{circuitikz}
+        % generator and line
+        \triGen{0,4}{2,4}{1.8}{\bar{E}_1}{\bar{E}_2}{\bar{E}_3}
+        \triLine{2,4}{4.5,4}{1.8}{\bar{Z}_L}{}{}
     
-    % load B
-    \triShort[*-][1.8]{6.5, 5.8}{6.5, 1}{1.8}
-    \PLoad[P_B][Q_B]{4.5}{2}{6.5,1}
+        % load A
+        \triShort{4.5, 4}{9, 4}{1.8}
+        \PLoad[P_A][Q_A]{2}{4.5}{9,4}
+        
+        % load B
+        \triShort[*-][1.8]{6.5, 5.8}{6.5, 1}{1.8}
+        \PLoad[P_B][Q_B]{4.5}{2}{6.5,1}
 
-    % current and voltages
-    \I{8,5.8}{8.5,5.8}{\bar{I}_A}
-    \I{4.7,3.5}{4.7,3}{\bar{I}_B}
-    \V*{2,4}{2,5.8}{\bar{V}_g}
-    \V{8.5,4}{8.5,5.8}{\bar{V}}
-\end{circuitikz}
+        % current and voltages
+        \I{8,5.8}{8.5,5.8}{\bar{I}_A}
+        \I{4.7,3.5}{4.7,3}{\bar{I}_B}
+        \V*{2,4}{2,5.8}{\bar{V}_g}
+        \V{8.5,4}{8.5,5.8}{\bar{V}}
+    \end{circuitikz}
 \end{lstlisting}
 
 \begin{center}
