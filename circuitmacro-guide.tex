@@ -76,13 +76,62 @@ Put the file either in project directory or in the \texttt{TEXHOME} tree. These 
 
 
 
-% \section{General Notes}
+\section{Commands list}
 
-% \begin{itemize}
-%     \item All coordinate pairs (e.g., \texttt{\{0,0\}}) must be passed \textbf{without parentheses}.
-%     \item Optional arguments may be used to add labels, set orientation, or tweak layout.
-%     \item The macros are built on top of \texttt{circuitikz} and follow its drawing conventions.
-% \end{itemize}
+\begin{center}
+    \footnotesize
+    \begin{tabular}{l}
+        \hline
+        \hline
+        \texttt{\textbackslash R* [\textless circuitikz options\textgreater]\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}\{\textless label\textgreater\}} \\
+        \texttt{\textbackslash L* [\textless circuitikz options\textgreater]\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}\{\textless label\textgreater\}} \\
+        \texttt{\textbackslash C* [\textless circuitikz options\textgreater]\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}\{\textless label\textgreater\}} \\
+        \texttt{\textbackslash B* [\textless circuitikz options\textgreater]\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}\{\textless label\textgreater\}} \\
+        \hline
+        \texttt{\textbackslash SwOpen* [\textless circuitikz options\textgreater]\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}\{\textless label\textgreater\}}  \\
+        \texttt{\textbackslash SwClosed* [\textless circuitikz options\textgreater]\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}\{\textless label\textgreater\}} \\
+        \hline
+        \texttt{\textbackslash Short [\textless circuitikz options\textgreater]\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}}  \\
+        \texttt{\textbackslash Open  [\textless circuitikz options\textgreater]\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}}  \\
+        \hline
+        \texttt{\textbackslash Vs* [\textless circuitikz options\textgreater]\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}\{\textless label\textgreater\}}  \\
+        \texttt{\textbackslash Is* [\textless circuitikz options\textgreater]\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}\{\textless label\textgreater\}} \\
+        \texttt{\textbackslash cVs* [\textless circuitikz options\textgreater]\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}\{\textless label\textgreater\}}  \\
+        \texttt{\textbackslash cIs* [\textless circuitikz options\textgreater]\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}\{\textless label\textgreater\}}  \\
+        \hline
+        \texttt{\textbackslash V*\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}\{\textless label\textgreater\}}  \\
+        \texttt{\textbackslash I*\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}\{\textless label\textgreater\}}  \\
+        \hline
+        \texttt{\textbackslash Nodes*\{\textless coords\textgreater\}} ... \\
+        \texttt{\textbackslash Terminal\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}\{\textless label\textgreater\}}  \\
+        \texttt{\textbackslash Label[\textless tikz node options\textgreater]\{\textless coords\textgreater\}\{\textless text\textgreater\}}  \\
+        \hline
+        \texttt{\textbackslash PLoad[\textless top label\textgreater][\textless bottom label\textgreater]\{\textless width\textgreater\}\{\textless height\textgreater\}\{\textless center coords\textgreater\}} \\
+        \hline
+        \texttt{\textbackslash YLoad* [\textless length scale\textgreater] [\textless component type\textgreater]\{\textless coord1\textgreater\}\{\textless coord2\textgreater\}\{\textless offset\textgreater\}} ... \\
+        \qquad\qquad\texttt{\{\textless label phase 1\textgreater\}\{\textless label phase 2\textgreater\}\{\textless label phase 2\textgreater\}} \\
+        \texttt{\textbackslash DLoad* [\textless length scale\textgreater] [\textless component type\textgreater]\{\textless coord1\textgreater\}\{\textless coord2\textgreater\}\{\textless offset\textgreater\}} ...\\
+        \qquad\qquad\texttt{\{\textless label branch 1\textgreater\}\{\textless label branch 2\textgreater\}\{\textless label branch 3\textgreater\}} \\
+        \hline
+        \texttt{\textbackslash triGen*  [\textless length scale\textgreater] [V|I]\{\textless coord1\textgreater\}\{\textless coord2\textgreater\}\{\textless offset\textgreater\}} ...\\
+        \qquad\qquad\texttt{\{\textless label phase A\textgreater\}\{\textless label phase B\textgreater\}\{\textless label phase C\textgreater\}} \\
+        \texttt{\textbackslash triLine* [\textless length scale\textgreater] [\textless component type\textgreater]\{\textless coord1\textgreater\}\{\textless coord2\textgreater\}\{\textless offset\textgreater\}} ...\\
+        \qquad\qquad\texttt{\{\textless label phase A\textgreater\}\{\textless label phase B\textgreater\}\{\textless label phase C\textgreater\}} \\
+        \texttt{\textbackslash triShort* [\textless circuitikz options\textgreater][\textless gap\textgreater]\{\textless coord1\textgreater\}\{\textless coord2\textgreater\}\{\textless offset\textgreater\}}\\
+        \hline
+        \hline
+    \end{tabular}
+\end{center}
+
+
+Notes on the optionals (based on your definitions):
+
+\begin{itemize} 
+  \item Starred forms (\texttt{\textbackslash Cmd*}) flip label/side.
+  \item \texttt{\textless length scale \textgreater} defaults to 1 where present.
+  \item \texttt{\textless component type \textgreater} defaults to $B$ (generic) where present.
+  \item \texttt{\textbackslash triGen} source type defaults to $V$ (voltage); $I$ selects current sources.
+\end{itemize}
 
 %---------------------
 \section{Commands Overview and Examples}
