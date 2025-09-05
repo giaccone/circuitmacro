@@ -83,27 +83,27 @@ Put the file either in project directory or in the \texttt{TEXHOME} tree. These 
     \begin{tabular}{l}
         \hline
         \hline
-        \texttt{\textbackslash R* [\textless circuitikz options\textgreater]\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}\{\textless label\textgreater\}} \\
-        \texttt{\textbackslash L* [\textless circuitikz options\textgreater]\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}\{\textless label\textgreater\}} \\
-        \texttt{\textbackslash C* [\textless circuitikz options\textgreater]\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}\{\textless label\textgreater\}} \\
-        \texttt{\textbackslash B* [\textless circuitikz options\textgreater]\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}\{\textless label\textgreater\}} \\
+        \texttt{\textbackslash R* [\textless circuitikz options\textgreater]\{\textless from\textgreater\}\{\textless to\textgreater\}\{\textless label\textgreater\}} \\
+        \texttt{\textbackslash L* [\textless circuitikz options\textgreater]\{\textless from\textgreater\}\{\textless to\textgreater\}\{\textless label\textgreater\}} \\
+        \texttt{\textbackslash C* [\textless circuitikz options\textgreater]\{\textless from\textgreater\}\{\textless to\textgreater\}\{\textless label\textgreater\}} \\
+        \texttt{\textbackslash B* [\textless circuitikz options\textgreater]\{\textless from\textgreater\}\{\textless to\textgreater\}\{\textless label\textgreater\}} \\
         \hline
-        \texttt{\textbackslash SwOpen* [\textless circuitikz options\textgreater]\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}\{\textless label\textgreater\}}  \\
-        \texttt{\textbackslash SwClosed* [\textless circuitikz options\textgreater]\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}\{\textless label\textgreater\}} \\
+        \texttt{\textbackslash SwOpen* [\textless circuitikz options\textgreater]\{\textless from\textgreater\}\{\textless to\textgreater\}\{\textless label\textgreater\}}  \\
+        \texttt{\textbackslash SwClosed* [\textless circuitikz options\textgreater]\{\textless from\textgreater\}\{\textless to\textgreater\}\{\textless label\textgreater\}} \\
         \hline
-        \texttt{\textbackslash Short [\textless circuitikz options\textgreater]\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}}  \\
-        \texttt{\textbackslash Open  [\textless circuitikz options\textgreater]\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}}  \\
+        \texttt{\textbackslash Short [\textless circuitikz options\textgreater]\{\textless from\textgreater\}\{\textless to\textgreater\}}  \\
+        \texttt{\textbackslash Open  [\textless circuitikz options\textgreater]\{\textless from\textgreater\}\{\textless to\textgreater\}}  \\
         \hline
-        \texttt{\textbackslash Vs* [\textless circuitikz options\textgreater]\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}\{\textless label\textgreater\}}  \\
-        \texttt{\textbackslash Is* [\textless circuitikz options\textgreater]\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}\{\textless label\textgreater\}} \\
-        \texttt{\textbackslash cVs* [\textless circuitikz options\textgreater]\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}\{\textless label\textgreater\}}  \\
-        \texttt{\textbackslash cIs* [\textless circuitikz options\textgreater]\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}\{\textless label\textgreater\}}  \\
+        \texttt{\textbackslash Vs* [\textless circuitikz options\textgreater]\{\textless from\textgreater\}\{\textless to\textgreater\}\{\textless label\textgreater\}}  \\
+        \texttt{\textbackslash Is* [\textless circuitikz options\textgreater]\{\textless from\textgreater\}\{\textless to\textgreater\}\{\textless label\textgreater\}} \\
+        \texttt{\textbackslash cVs* [\textless circuitikz options\textgreater]\{\textless from\textgreater\}\{\textless to\textgreater\}\{\textless label\textgreater\}}  \\
+        \texttt{\textbackslash cIs* [\textless circuitikz options\textgreater]\{\textless from\textgreater\}\{\textless to\textgreater\}\{\textless label\textgreater\}}  \\
         \hline
-        \texttt{\textbackslash V*\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}\{\textless label\textgreater\}}  \\
-        \texttt{\textbackslash I*\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}\{\textless label\textgreater\}}  \\
+        \texttt{\textbackslash V*\{\textless from\textgreater\}\{\textless to\textgreater\}\{\textless label\textgreater\}}  \\
+        \texttt{\textbackslash I*\{\textless from\textgreater\}\{\textless to\textgreater\}\{\textless label\textgreater\}}  \\
         \hline
         \texttt{\textbackslash Nodes*\{\textless coords\textgreater\}} ... \\
-        \texttt{\textbackslash Terminal\{\textless start coords\textgreater\}\{\textless end coords\textgreater\}\{\textless label\textgreater\}}  \\
+        \texttt{\textbackslash Terminal\{\textless from\textgreater\}\{\textless to\textgreater\}\{\textless label\textgreater\}}  \\
         \texttt{\textbackslash Label[\textless tikz node options\textgreater]\{\textless coords\textgreater\}\{\textless text\textgreater\}}  \\
         \hline
         \texttt{\textbackslash PLoad[\textless top label\textgreater][\textless bottom label\textgreater]\{\textless width\textgreater\}\{\textless height\textgreater\}\{\textless center coords\textgreater\}} \\
@@ -141,7 +141,7 @@ Notes on the optionals (based on your definitions):
 
 \textbf{Signature:}
 \begin{verbatim}
-\R[<circuitikz options>]{<start>}{<end>}{<label>}
+\R[<circuitikz options>]{<from>}{<to>}{<label>}
 \end{verbatim}
 
 \textbf{Example:}
@@ -172,7 +172,7 @@ Notes on the optionals (based on your definitions):
 
 \textbf{Signature:}
 \begin{verbatim}
-\L[<circuitikz options>]{<start>}{<end>}{<label>}
+\L[<circuitikz options>]{<from>}{<to>}{<label>}
 \end{verbatim}
 
 \textbf{Example:}
@@ -204,7 +204,7 @@ Notes on the optionals (based on your definitions):
 
 \textbf{Signature:}
 \begin{verbatim}
-\C[<circuitikz options>]{<start>}{<end>}{<label>}
+\C[<circuitikz options>]{<from>}{<to>}{<label>}
 \end{verbatim}
 
 \textbf{Example:}
@@ -234,7 +234,7 @@ Notes on the optionals (based on your definitions):
 
 \textbf{Signature:}
 \begin{verbatim}
-\B[<circuitikz options>]{<start>}{<end>}{<label>}
+\B[<circuitikz options>]{<from>}{<to>}{<label>}
 \end{verbatim}
 
 \textbf{Example:}
@@ -264,7 +264,7 @@ Notes on the optionals (based on your definitions):
 
 \textbf{Signature:}
 \begin{verbatim}
-\SwOpen[<circuitikz options>]{<start>}{<end>}{<label>}
+\SwOpen[<circuitikz options>]{<from>}{<to>}{<label>}
 \end{verbatim}
 
 \textbf{Example:}
@@ -294,7 +294,7 @@ Notes on the optionals (based on your definitions):
 
 \textbf{Signature:}
 \begin{verbatim}
-\SwClosed[<circuitikz options>]{<start>}{<end>}{<label>}
+\SwClosed[<circuitikz options>]{<from>}{<to>}{<label>}
 \end{verbatim}
 
 \textbf{Example:}
@@ -325,7 +325,7 @@ Notes on the optionals (based on your definitions):
 
 \textbf{Signature:}
 \begin{verbatim}
-\Short[<circuitikz options>]{<start>}{<end>}
+\Short[<circuitikz options>]{<from>}{<to>}
 \end{verbatim}
 
 \textbf{Example:}
@@ -356,7 +356,7 @@ Notes on the optionals (based on your definitions):
 
 \textbf{Signature:}
 \begin{verbatim}
-\Open[<circuitikz options>]{<start>}{<end>}
+\Open[<circuitikz options>]{<from>}{<to>}
 \end{verbatim}
 
 \textbf{Example:}
@@ -386,26 +386,26 @@ Notes on the optionals (based on your definitions):
 
 \textbf{Signature:}
 \begin{verbatim}
-\Vs[<circuitikz options>]{<start>}{<end>}{<label>}
+\Vs[<circuitikz options>]{<from>}{<to>}{<label>}
 \end{verbatim}
 
 \textbf{Example:}
 
 \begin{lstlisting}[style=latexstyle]
 \begin{circuitikz}
-    \Vs[i=$I_1$]{0,3}{0,0}{E_1}
-    \Vs*{3,3}{3,0}{E_2}
-    \Vs{4,0}{7,3}{}
-    \Vs*[i=$I_4$, *-*]{7,0}{10,3}{E_4}
+    \Vs[i=$I_1$]{0,0}{0,3}{E_1}
+    \Vs*{3,0}{3,3}{E_2}
+    \Vs{7,3}{4,0}{}
+    \Vs*[i=$I_4$, *-*]{10,3}{7,0}{E_4}
 \end{circuitikz}
 \end{lstlisting}
 
 \begin{center}
     \begin{circuitikz}
-            \Vs[i=$I_1$]{0,3}{0,0}{E_1}
-            \Vs*{3,3}{3,0}{E_2}
-            \Vs{4,0}{7,3}{}
-            \Vs*[i=$I_4$, *-*]{7,0}{10,3}{E_4}
+        \Vs[i=$I_1$]{0,0}{0,3}{E_1}
+        \Vs*{3,0}{3,3}{E_2}
+        \Vs{7,3}{4,0}{}
+        \Vs*[i=$I_4$, *-*]{10,3}{7,0}{E_4}
     \end{circuitikz}
 \end{center}
 
@@ -415,7 +415,7 @@ Notes on the optionals (based on your definitions):
 
 \textbf{Signature:}
 \begin{verbatim}
-\Is[<circuitikz options>]{<start>}{<end>}{<label>}
+\Is[<circuitikz options>]{<from>}{<to>}{<label>}
 \end{verbatim}
 
 \textbf{Example:}
@@ -445,26 +445,26 @@ Notes on the optionals (based on your definitions):
 
 \textbf{Signature:}
 \begin{verbatim}
-\cVs[<circuitikz options>]{<start>}{<end>}{<label>}
+\cVs[<circuitikz options>]{<from>}{<to>}{<label>}
 \end{verbatim}
 
 \textbf{Example:}
 
 \begin{lstlisting}[style=latexstyle]
 \begin{circuitikz}
-    \cVs[i=$I_1$]{0,3}{0,0}{E_1}
-    \cVs*{3,3}{3,0}{E_2}
-    \cVs{4,0}{7,3}{}
-    \cVs*[i=$I_4$, *-*]{7,0}{10,3}{E_4}
+    \cVs[i=$I_1$]{0,0}{0,3}{E_1}
+    \cVs*{3,0}{3,3}{E_2}
+    \cVs{7,3}{4,0}{}
+    \cVs*[i=$I_4$, *-*]{10,3}{7,0}{E_4}
 \end{circuitikz}
 \end{lstlisting}
 
 \begin{center}
     \begin{circuitikz}
-            \cVs[i=$I_1$]{0,3}{0,0}{E_1}
-            \cVs*{3,3}{3,0}{E_2}
-            \cVs{4,0}{7,3}{}
-            \cVs*[i=$I_4$, *-*]{7,0}{10,3}{E_4}
+        \cVs[i=$I_1$]{0,0}{0,3}{E_1}
+        \cVs*{3,0}{3,3}{E_2}
+        \cVs{7,3}{4,0}{}
+        \cVs*[i=$I_4$, *-*]{10,3}{7,0}{E_4}
     \end{circuitikz}
 \end{center}
 
@@ -474,7 +474,7 @@ Notes on the optionals (based on your definitions):
 
 \textbf{Signature:}
 \begin{verbatim}
-\cIs[<circuitikz options>]{<start>}{<end>}{<label>}
+\cIs[<circuitikz options>]{<from>}{<to>}{<label>}
 \end{verbatim}
 
 \textbf{Example:}
@@ -504,7 +504,7 @@ Notes on the optionals (based on your definitions):
 
 \textbf{Signature:}
 \begin{verbatim}
-\V{<start>}{<end>}{<label>}
+\V{<from>}{<to>}{<label>}
 \end{verbatim}
 
 \textbf{Example:}
@@ -534,7 +534,7 @@ Notes on the optionals (based on your definitions):
 
 \textbf{Signature:}
 \begin{verbatim}
-\I{<start>}{<end>}{<label>}
+\I{<from>}{<to>}{<label>}
 \end{verbatim}
 
 \textbf{Example:}
@@ -852,7 +852,7 @@ Notes on the optionals (based on your definitions):
 
 \begin{lstlisting}[style=latexstyle]
 \begin{circuitikz}
-    \Vs{0,3}{0,0}{E_1}
+    \Vs{0,0}{0,3}{E_1}
     \R{0,3}{3,3}{R_1}
     \R{0,0}{3,0}{R_2}
     \Is[*-*]{3,0}{3,3}{A_1}
@@ -867,7 +867,7 @@ Notes on the optionals (based on your definitions):
 
 \begin{center}
 	\begin{circuitikz}
-		\Vs{0,3}{0,0}{E_1}
+		\Vs{0,0}{0,3}{E_1}
 		\R{0,3}{3,3}{R_1}
 		\R{0,0}{3,0}{R_2}
 		\Is[*-*]{3,0}{3,3}{A_1}
@@ -885,7 +885,7 @@ Notes on the optionals (based on your definitions):
 
 \begin{lstlisting}[style=latexstyle]
 \begin{circuitikz}
-    \Vs{0,6}{0,0}{\bar{E}_1}
+    \Vs{0,0}{0,6}{\bar{E}_1}
     \Is[*-*]{3,3}{6,3}{\bar{A}_1}
     \B[*-, v<=$\bar{V}_1$]{3,6}{3,3}{\bar{Z}_1}
     \B[-*, i=$\bar{I}_2$]{3,3}{3,0}{\bar{Z}_2}
@@ -898,7 +898,7 @@ Notes on the optionals (based on your definitions):
 
 \begin{center}
 	\begin{circuitikz}
-		\Vs{0,6}{0,0}{\bar{E}_1}
+		\Vs{0,0}{0,6}{\bar{E}_1}
 		\Is[*-*]{3,3}{6,3}{\bar{A}_1}
 		\B[*-, v<=$\bar{V}_1$]{3,6}{3,3}{\bar{Z}_1}
 		\B[-*, i=$\bar{I}_2$]{3,3}{3,0}{\bar{Z}_2}

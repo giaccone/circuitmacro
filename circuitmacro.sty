@@ -1,5 +1,5 @@
 \ProvidesPackage{circuitmacro}[2025/07/28 circuit 0.01]
-% this package provide macros based on circuitikz plus some
+% this package provide macros based on circuitikz from some
 % default settings (e.g. straight voltages, etc...)
 
 % required packages
@@ -22,7 +22,7 @@
     % \R — Resistor
     %
     % Syntax:
-    %   \R[*][<circuitikz options>]{<start coords>}{<end coords>}{<label>}
+    %   \R[*][<circuitikz options>]{<from>}{<to>}{<label>}
     %
     % Description:
     %   Draws a resistor between two coordinates in a Circuitikz diagram, with an
@@ -35,8 +35,8 @@
     %                                above (`l=`).
     %   [<circuitikz options>]    — (Optional) Key-value options passed directly to 
     %                                the Circuitikz `R` element, e.g., `-*`, `color=red`.
-    %   {<start coords>}          — Coordinates of the starting terminal, e.g., `0,0`.
-    %   {<end coords>}            — Coordinates of the ending terminal, e.g., `2,0`.
+    %   {<from>}          — Coordinates of the starting terminal, e.g., `0,0`.
+    %   {<to>}            — Coordinates of the ending terminal, e.g., `2,0`.
     %   {<label>}                 — Mathematical label for the resistor, e.g., `R_1`.
     %
     % Behaviour:
@@ -60,15 +60,15 @@
     % --------------------------------------------------------------------------
 
     % get coordinates
-    \coordinate (plus) at (#3);
-    \coordinate (minus) at (#4);
+    \coordinate (from) at (#3);
+    \coordinate (to) at (#4);
     
     \IfBooleanTF{#1}{
         % put the resistor with or without optional parameters
-	    \IfNoValueTF{#2}{\draw (plus) to[R, l_=$#5$] (minus);}{\draw (plus) to[R, l_=$#5$, #2] (minus);}
+	    \IfNoValueTF{#2}{\draw (from) to[R, l_=$#5$] (to);}{\draw (from) to[R, l_=$#5$, #2] (to);}
     }{
         % put the resistor with or without optional parameters
-	    \IfNoValueTF{#2}{\draw (plus) to[R, l=$#5$] (minus);}{\draw (plus) to[R, l=$#5$, #2] (minus);}
+	    \IfNoValueTF{#2}{\draw (from) to[R, l=$#5$] (to);}{\draw (from) to[R, l=$#5$, #2] (to);}
     }
 }
 
@@ -80,7 +80,7 @@
     % \L — Inductor
     %
     % Syntax:
-    %   \L[*][<circuitikz options>]{<start coords>}{<end coords>}{<label>}
+    %   \L[*][<circuitikz options>]{<from>}{<to>}{<label>}
     %
     % Description:
     %   Draws a inductor between two coordinates in a Circuitikz diagram, with an
@@ -93,8 +93,8 @@
     %                                above (`l=`).
     %   [<circuitikz options>]    — (Optional) Key-value options passed directly to 
     %                                the Circuitikz `R` element, e.g., `-*`, `color=red`.
-    %   {<start coords>}          — Coordinates of the starting terminal, e.g., `0,0`.
-    %   {<end coords>}            — Coordinates of the ending terminal, e.g., `2,0`.
+    %   {<from>}          — Coordinates of the starting terminal, e.g., `0,0`.
+    %   {<to>}            — Coordinates of the ending terminal, e.g., `2,0`.
     %   {<label>}                 — Mathematical label for the inductor, e.g., `R_1`.
     %
     % Behaviour:
@@ -117,15 +117,15 @@
     % Date: 06.08.2025
     % ----------------------------------------------------------------
     % get coordinates
-    \coordinate (plus) at (#3);
-    \coordinate (minus) at (#4);
+    \coordinate (from) at (#3);
+    \coordinate (to) at (#4);
     
     \IfBooleanTF{#1}{
         % put the inductor with or without optional parameters
-	    \IfNoValueTF{#2}{\draw (plus) to[L, l_=$#5$] (minus);}{\draw (plus) to[L, l_=$#5$, #2] (minus);}
+	    \IfNoValueTF{#2}{\draw (from) to[L, l_=$#5$] (to);}{\draw (from) to[L, l_=$#5$, #2] (to);}
     }{
         % put the inductor with or without optional parameters
-	    \IfNoValueTF{#2}{\draw (plus) to[L, l=$#5$] (minus);}{\draw (plus) to[L, l=$#5$, #2] (minus);}
+	    \IfNoValueTF{#2}{\draw (from) to[L, l=$#5$] (to);}{\draw (from) to[L, l=$#5$, #2] (to);}
     }
 }
 
@@ -137,7 +137,7 @@
     % \C — Capacitor
     %
     % Syntax:
-    %   \C[*][<circuitikz options>]{<start coords>}{<end coords>}{<label>}
+    %   \C[*][<circuitikz options>]{<from>}{<to>}{<label>}
     %
     % Description:
     %   Draws a capacitor between two coordinates in a Circuitikz diagram, with an
@@ -150,8 +150,8 @@
     %                                above (`l=`).
     %   [<circuitikz options>]    — (Optional) Key-value options passed directly to 
     %                                the Circuitikz `R` element, e.g., `-*`, `color=red`.
-    %   {<start coords>}          — Coordinates of the starting terminal, e.g., `0,0`.
-    %   {<end coords>}            — Coordinates of the ending terminal, e.g., `2,0`.
+    %   {<from>}          — Coordinates of the starting terminal, e.g., `0,0`.
+    %   {<to>}            — Coordinates of the ending terminal, e.g., `2,0`.
     %   {<label>}                 — Mathematical label for the capacitor, e.g., `R_1`.
     %
     % Behaviour:
@@ -174,15 +174,15 @@
     % Date: 06.08.2025
     % ----------------------------------------------------------------
     % get coordinates
-    \coordinate (plus) at (#3);
-    \coordinate (minus) at (#4);
+    \coordinate (from) at (#3);
+    \coordinate (to) at (#4);
     
     \IfBooleanTF{#1}{
         % put the capacitor with or without optional parameters
-	    \IfNoValueTF{#2}{\draw (plus) to[C, l_=$#5$] (minus);}{\draw (plus) to[C, l_=$#5$, #2] (minus);}
+	    \IfNoValueTF{#2}{\draw (from) to[C, l_=$#5$] (to);}{\draw (from) to[C, l_=$#5$, #2] (to);}
     }{
         % put the capacitor with or without optional parameters
-	    \IfNoValueTF{#2}{\draw (plus) to[C, l=$#5$] (minus);}{\draw (plus) to[C, l=$#5$, #2] (minus);}
+	    \IfNoValueTF{#2}{\draw (from) to[C, l=$#5$] (to);}{\draw (from) to[C, l=$#5$, #2] (to);}
     }
 }
 
@@ -194,7 +194,7 @@
     % \B — Bipole (impedance)
     %
     % Syntax:
-    %   \B[*][<circuitikz options>]{<start coords>}{<end coords>}{<label>}
+    %   \B[*][<circuitikz options>]{<from>}{<to>}{<label>}
     %
     % Description:
     %   Draws a bipole between two coordinates in a Circuitikz diagram, with an
@@ -207,8 +207,8 @@
     %                                above (`l=`).
     %   [<circuitikz options>]    — (Optional) Key-value options passed directly to 
     %                                the Circuitikz `R` element, e.g., `-*`, `color=red`.
-    %   {<start coords>}          — Coordinates of the starting terminal, e.g., `0,0`.
-    %   {<end coords>}            — Coordinates of the ending terminal, e.g., `2,0`.
+    %   {<from>}          — Coordinates of the starting terminal, e.g., `0,0`.
+    %   {<to>}            — Coordinates of the ending terminal, e.g., `2,0`.
     %   {<label>}                 — Mathematical label for the bipole, e.g., `R_1`.
     %
     % Behaviour:
@@ -231,15 +231,15 @@
     % Date: 06.08.2025
     % ----------------------------------------------------------------
     % get coordinates
-    \coordinate (plus) at (#3);
-    \coordinate (minus) at (#4);
+    \coordinate (from) at (#3);
+    \coordinate (to) at (#4);
     
     \IfBooleanTF{#1}{
         % put the bipole with or without optional parameters
-	    \IfNoValueTF{#2}{\draw (plus) to[generic, l_=$#5$] (minus);}{\draw (plus) to[generic, l_=$#5$, #2] (minus);}
+	    \IfNoValueTF{#2}{\draw (from) to[generic, l_=$#5$] (to);}{\draw (from) to[generic, l_=$#5$, #2] (to);}
     }{
         % put the bipole with or without optional parameters
-	    \IfNoValueTF{#2}{\draw (plus) to[generic, l=$#5$] (minus);}{\draw (plus) to[generic, l=$#5$, #2] (minus);}
+	    \IfNoValueTF{#2}{\draw (from) to[generic, l=$#5$] (to);}{\draw (from) to[generic, l=$#5$, #2] (to);}
     }
 }
 
@@ -251,7 +251,7 @@
     % \SwOpen — Open Switch with Label
     %
     % Syntax:
-    %   \SwOpen[*][<circuitikz options>]{<start coords>}{<end coords>}{<label>}
+    %   \SwOpen[*][<circuitikz options>]{<from>}{<to>}{<label>}
     %
     % Description:
     %   Draws an open switch (`cute closing switch` style in Circuitikz) between
@@ -265,8 +265,8 @@
     %                                above (`l=`).
     %   [<circuitikz options>]    — (Optional) Key-value options passed directly to 
     %                                the Circuitikz switch element, e.g., `-*`, `color=red`.
-    %   {<start coords>}          — Coordinates of the starting terminal, e.g., `0,0`.
-    %   {<end coords>}            — Coordinates of the ending terminal, e.g., `2,0`.
+    %   {<from>}          — Coordinates of the starting terminal, e.g., `0,0`.
+    %   {<to>}            — Coordinates of the ending terminal, e.g., `2,0`.
     %   {<label>}                 — Mathematical label for the switch, e.g., `S_1`.
     %
     % Behaviour:
@@ -290,15 +290,15 @@
     % --------------------------------------------------------------------------
 
     % get coordinates
-    \coordinate (plus) at (#3);
-    \coordinate (minus) at (#4);
+    \coordinate (from) at (#3);
+    \coordinate (to) at (#4);
     
     \IfBooleanTF{#1}{
         % put the switch with or without optional parameters
-	    \IfNoValueTF{#2}{\draw (plus) to[cute closing switch, l_={$#5$}] (minus);}{\draw (plus) to[cute closing switch, l_={$#5$}, #2] (minus);}
+	    \IfNoValueTF{#2}{\draw (from) to[cute closing switch, l_={$#5$}] (to);}{\draw (from) to[cute closing switch, l_={$#5$}, #2] (to);}
     }{
         % put the switch with or without optional parameters
-	    \IfNoValueTF{#2}{\draw (plus) to[cute closing switch, l={$#5$}] (minus);}{\draw (plus) to[cute closing switch, l={$#5$}, #2] (minus);}
+	    \IfNoValueTF{#2}{\draw (from) to[cute closing switch, l={$#5$}] (to);}{\draw (from) to[cute closing switch, l={$#5$}, #2] (to);}
     }
 }
 
@@ -311,7 +311,7 @@
     % \SwClosed — Closed Switch with Label
     %
     % Syntax:
-    %   \SwClosed[*][<circuitikz options>]{<start coords>}{<end coords>}{<label>}
+    %   \SwClosed[*][<circuitikz options>]{<from>}{<to>}{<label>}
     %
     % Description:
     %   Draws a closed switch (`cute opening switch` style in Circuitikz) between
@@ -325,8 +325,8 @@
     %                                above (`l=`).
     %   [<circuitikz options>]    — (Optional) Key-value options passed directly to
     %                                the Circuitikz switch element, e.g., `-*`, `color=red`.
-    %   {<start coords>}          — Coordinates of the starting terminal, e.g., `0,0`.
-    %   {<end coords>}            — Coordinates of the ending terminal, e.g., `2,0`.
+    %   {<from>}          — Coordinates of the starting terminal, e.g., `0,0`.
+    %   {<to>}            — Coordinates of the ending terminal, e.g., `2,0`.
     %   {<label>}                 — Mathematical label for the switch, e.g., `S_1`.
     %
     % Behaviour:
@@ -350,15 +350,15 @@
     % --------------------------------------------------------------------------
     
     % get coordinates
-    \coordinate (plus) at (#3);
-    \coordinate (minus) at (#4);
+    \coordinate (from) at (#3);
+    \coordinate (to) at (#4);
     
     \IfBooleanTF{#1}{
         % put the switch with or without optional parameters
-	    \IfNoValueTF{#2}{\draw (plus) to[cute opening switch, l_={$#5$}] (minus);}{\draw (plus) to[cute opening switch, l_={$#5$}, #2] (minus);}
+	    \IfNoValueTF{#2}{\draw (from) to[cute opening switch, l_={$#5$}] (to);}{\draw (from) to[cute opening switch, l_={$#5$}, #2] (to);}
     }{
         % put the switch with or without optional parameters
-	    \IfNoValueTF{#2}{\draw (plus) to[cute opening switch, l={$#5$}] (minus);}{\draw (plus) to[cute opening switch, l={$#5$}, #2] (minus);}
+	    \IfNoValueTF{#2}{\draw (from) to[cute opening switch, l={$#5$}] (to);}{\draw (from) to[cute opening switch, l={$#5$}, #2] (to);}
     }
 }
 
@@ -370,7 +370,7 @@
     % \Short — Short Circuit Connection
     %
     % Syntax:
-    %   \Short[<circuitikz options>]{<start coords>}{<end coords>}
+    %   \Short[<circuitikz options>]{<from>}{<to>}
     %
     % Description:
     %   Draws a short circuit (a direct conductor) between two coordinates
@@ -381,8 +381,8 @@
     %   [<circuitikz options>]    — (Optional) Key-value options passed directly
     %                                to the Circuitikz `short` element, e.g.,
     %                                `-*`, `color=blue`.
-    %   {<start coords>}          — Coordinates of the starting terminal, e.g., `0,0`.
-    %   {<end coords>}            — Coordinates of the ending terminal, e.g., `2,0`.
+    %   {<from>}          — Coordinates of the starting terminal, e.g., `0,0`.
+    %   {<to>}            — Coordinates of the ending terminal, e.g., `2,0`.
     %
     % Behaviour:
     %   - If no [<circuitikz options>] are provided, defaults to a plain short
@@ -405,11 +405,11 @@
     % ----------------------------------------------------------------
 
 	% get coordinates
-	\coordinate (plus) at (#2);
-  	\coordinate (minus) at (#3);
+	\coordinate (from) at (#2);
+  	\coordinate (to) at (#3);
 
 	% put the short circuit with or without optional parameters
-	\IfNoValueTF{#1}{\draw (plus) to[short] (minus);}{\draw (plus) to[short, #1] (minus);}
+	\IfNoValueTF{#1}{\draw (from) to[short] (to);}{\draw (from) to[short, #1] (to);}
 }
 
 %----------------------------
@@ -420,7 +420,7 @@
     % \Open — Open Circuit Connection
     %
     % Syntax:
-    %   \Open[<circuitikz options>]{<start coords>}{<end coords>}
+    %   \Open[<circuitikz options>]{<from>}{<to>}
     %
     % Description:
     %   Draws an open circuit (a visible gap between terminals) between two
@@ -431,8 +431,8 @@
     %   [<circuitikz options>]    — (Optional) Key-value options passed directly
     %                                to the Circuitikz `open` element, e.g.,
     %                                `o-o`, `color=red`.
-    %   {<start coords>}          — Coordinates of the starting terminal, e.g., `0,0`.
-    %   {<end coords>}            — Coordinates of the ending terminal, e.g., `2,0`.
+    %   {<from>}          — Coordinates of the starting terminal, e.g., `0,0`.
+    %   {<to>}            — Coordinates of the ending terminal, e.g., `2,0`.
     %
     % Behaviour:
     %   - If no [<circuitikz options>] are provided, defaults to a plain open
@@ -454,11 +454,11 @@
     % --------------------------------------------------------------------------
 	
 	% get coordinates
-	\coordinate (plus) at (#2);
-  	\coordinate (minus) at (#3);
+	\coordinate (from) at (#2);
+  	\coordinate (to) at (#3);
 
 	% put the open circuit with or without optional parameters
-	\IfNoValueTF{#1}{\draw (plus) to[open] (minus);}{\draw (plus) to[open, #1] (minus);}
+	\IfNoValueTF{#1}{\draw (from) to[open] (to);}{\draw (from) to[open, #1] (to);}
 }
 
 %----------------------------
@@ -466,33 +466,33 @@
 %----------------------------
 \NewDocumentCommand{\Vs}{s o m m m}{
     % --------------------------------------------------------------------------
-    % \Vs — Independent Voltage Source with Plus Sign and Label
+    % \Vs — Independent Voltage Source with from Sign and Label
     %
     % Syntax:
-    %   \Vs[*][<circuitikz options>]{<plus coords>}{<minus coords>}{<label>}
+    %   \Vs[*][<circuitikz options>]{<from coords>}{<to coords>}{<label>}
     %
     % Description:
     %   Draws an independent voltage source between two coordinates in a Circuitikz
-    %   diagram, optionally adding styling options, a side selection for the plus sign,
+    %   diagram, optionally adding styling options, a side selection for the from sign,
     %   and a label positioned near the source.
     %
     % Arguments:
-    %   * (optional star)       — If present, the plus sign is placed on the opposite
+    %   * (optional star)       — If present, the from sign is placed on the opposite
     %                           side of the default (mirrors horizontally).
     %   [<circuitikz options>]  — (Optional) Key-value options passed directly to the 
     %                           Circuitikz
-    %   {<plus coords>}         — Coordinates of the positive terminal, e.g., `0,0`.
-    %   {<minus coords>}        — Coordinates of the negative terminal, e.g., `0,3`.
-    %   {<label>}               — Mathematical label to display near the plus sign, 
+    %   {<from coords>}         — Coordinates of the positive terminal, e.g., `0,0`.
+    %   {<to coords>}        — Coordinates of the negative terminal, e.g., `0,3`.
+    %   {<label>}               — Mathematical label to display near the from sign, 
     %                           e.g., `E_1`.
     %
     % Behaviour:
     %   - If no [<options>] are provided, draws a default `V` element.
-    %   - The star `*` in the first argument toggles the side on which the plus sign
+    %   - The star `*` in the first argument toggles the side on which the from sign
     %     and label appear.
     %   - Automatically computes the midpoint and orientation of the element to
-    %     rotate the plus sign correctly.
-    %   - Places the label slightly offset from the plus sign for clarity.
+    %     rotate the from sign correctly.
+    %   - Places the label slightly offset from the from sign for clarity.
     %
     % Example:
     %   \begin{circuitikz}
@@ -502,26 +502,26 @@
     %
     % Notes:
     %   - Coordinates must be given without parentheses.
-    %   - This macro relies on Circuitikz and PGF/TikZ math to position the plus sign.
+    %   - This macro relies on Circuitikz and PGF/TikZ math to position the from sign.
     %
     % Author: Luca Giaccone (luca.giaccone@polito.it)
     % Date: 05.08.2025
     % --------------------------------------------------------------------------
 
     % get coordinates
-	\coordinate (plus) at (#3);
-  	\coordinate (minus) at (#4);
+	\coordinate (from) at (#4);
+  	\coordinate (to) at (#3);
 
     % put the voltage source with or without optional parameters
-	\IfNoValueTF{#2}{\draw (plus) to[V] (minus);}{\draw (plus) to[V, #2] (minus);}
+	\IfNoValueTF{#2}{\draw (from) to[V] (to);}{\draw (from) to[V, #2] (to);}
     
     % select side for plus sign and label
     \IfBooleanTF{#1}{\def\side{-1}}{\def\side{1}}
 
-    % draw the plus sign
+    % draw the from sign
     \path let
-        \p1 = (plus),
-        \p2 = (minus),
+        \p1 = (from),
+        \p2 = (to),
         \p3 = ($(\p2)-(\p1)$),          % direction vector
         \n1 = {veclen(\x3,\y3)/28.45},  % length of the vector (in cm)
         \n2 = {atan2(\y3,\x3)},         % angle of the component
@@ -544,7 +544,7 @@
     % \Is — Independent Current Source with Arrow and Label
     %
     % Syntax:
-    %   \Is[*][<circuitikz options>]{<plus coords>}{<minus coords>}{<label>}
+    %   \Is[*][<circuitikz options>]{<from coords>}{<to coords>}{<label>}
     %
     % Description:
     %   Draws an independent current source between two coordinates in a Circuitikz
@@ -556,8 +556,8 @@
     %                                opposite side of the default.
     %   [<circuitikz options>]    — (Optional) Key-value options passed directly to the 
     %                                Circuitikz `I` element, e.g., `-*`, etc.
-    %   {<plus coords>}           — Coordinates of the positive terminal, e.g., `0,0`.
-    %   {<minus coords>}          — Coordinates of the negative terminal, e.g., `0,3`.
+    %   {<from coords>}           — Coordinates of the positive terminal, e.g., `0,0`.
+    %   {<to coords>}          — Coordinates of the negative terminal, e.g., `0,3`.
     %   {<label>}                 — Mathematical label to display near the arrow, 
     %                                e.g., `I_s`.
     %
@@ -585,19 +585,19 @@
     % --------------------------------------------------------------------------
 
 	% get coordinates
-	\coordinate (plus) at (#3);
-  	\coordinate (minus) at (#4);
+	\coordinate (from) at (#3);
+  	\coordinate (to) at (#4);
 
 	% put the current source with or without optional parameters
-	\IfNoValueTF{#2}{\draw (plus) to[I] (minus);}{\draw (plus) to[I,#2] (minus);}
+	\IfNoValueTF{#2}{\draw (from) to[I] (to);}{\draw (from) to[I,#2] (to);}
 
     % select side for arrow and label
     \IfBooleanTF{#1}{\def\side{-1}}{\def\side{1}}
 
   	% draw arrow and the label
   	\draw[-{Triangle[width=4.5pt, length=5pt]}] let
-		\p1 = (plus),
-		\p2 = (minus),
+		\p1 = (from),
+		\p2 = (to),
 		\p3 = ($(\p2)-(\p1)$),          % direction vector
 		\n1 = {veclen(\x3,\y3)/28.45},  % length of the vector (in cm)
 		% middle point
@@ -615,33 +615,33 @@
 %----------------------------
 \NewDocumentCommand{\cVs}{s o m m m}{
 	% --------------------------------------------------------------------------
-    % \cVs — Controlled Voltage Source with Plus Sign and Label
+    % \cVs — Controlled Voltage Source with from Sign and Label
     %
     % Syntax:
-    %   \cVs[*][<circuitikz options>]{<plus coords>}{<minus coords>}{<label>}
+    %   \cVs[*][<circuitikz options>]{<from coords>}{<to coords>}{<label>}
     %
     % Description:
     %   Draws an independent voltage source between two coordinates in a Circuitikz
-    %   diagram, optionally adding styling options, a side selection for the plus sign,
+    %   diagram, optionally adding styling options, a side selection for the from sign,
     %   and a label positioned near the source.
     %
     % Arguments:
-    %   * (optional star)       — If present, the plus sign is placed on the opposite
+    %   * (optional star)       — If present, the from sign is placed on the opposite
     %                           side of the default (mirrors horizontally).
     %   [<circuitikz options>]  — (Optional) Key-value options passed directly to the 
     %                           Circuitikz
-    %   {<plus coords>}         — Coordinates of the positive terminal, e.g., `0,0`.
-    %   {<minus coords>}        — Coordinates of the negative terminal, e.g., `0,3`.
-    %   {<label>}               — Mathematical label to display near the plus sign, 
+    %   {<from coords>}         — Coordinates of the positive terminal, e.g., `0,0`.
+    %   {<to coords>}        — Coordinates of the negative terminal, e.g., `0,3`.
+    %   {<label>}               — Mathematical label to display near the from sign, 
     %                           e.g., `E_1`.
     %
     % Behaviour:
     %   - If no [<options>] are provided, draws a default `V` element.
-    %   - The star `*` in the first argument toggles the side on which the plus sign
+    %   - The star `*` in the first argument toggles the side on which the from sign
     %     and label appear.
     %   - Automatically computes the midpoint and orientation of the element to
-    %     rotate the plus sign correctly.
-    %   - Places the label slightly offset from the plus sign for clarity.
+    %     rotate the from sign correctly.
+    %   - Places the label slightly offset from the from sign for clarity.
     %
     % Example:
     %   \begin{circuitikz}
@@ -651,26 +651,26 @@
     %
     % Notes:
     %   - Coordinates must be given without parentheses.
-    %   - This macro relies on Circuitikz and PGF/TikZ math to position the plus sign.
+    %   - This macro relies on Circuitikz and PGF/TikZ math to position the from sign.
     %
     % Author: Luca Giaccone (luca.giaccone@polito.it)
     % Date: 06.08.2025
 	% --------------------------------------------------------------------------
 
     % get coordinates
-	\coordinate (plus) at (#3);
-  	\coordinate (minus) at (#4);
+	\coordinate (from) at (#4);
+  	\coordinate (to) at (#3);
 
     % put the voltage source with or without optional parameters
-	\IfNoValueTF{#2}{\draw (plus) to[cV] (minus);}{\draw (plus) to[cV, #2] (minus);}
+	\IfNoValueTF{#2}{\draw (from) to[cV] (to);}{\draw (from) to[cV, #2] (to);}
     
     % select side for plus sign and label
     \IfBooleanTF{#1}{\def\side{-1}}{\def\side{1}}
 
-    % draw the plus sign
+    % draw the from sign
     \path let
-        \p1 = (plus),
-        \p2 = (minus),
+        \p1 = (from),
+        \p2 = (to),
         \p3 = ($(\p2)-(\p1)$),          % direction vector
         \n1 = {veclen(\x3,\y3)/28.45},  % length of the vector (in cm)
         \n2 = {atan2(\y3,\x3)},         % angle of the component
@@ -693,7 +693,7 @@
     % \cIs — Controlled Current Source with Arrow and Label
     %
     % Syntax:
-    %   \cIs[*][<circuitikz options>]{<plus coords>}{<minus coords>}{<label>}
+    %   \cIs[*][<circuitikz options>]{<from coords>}{<to coords>}{<label>}
     %
     % Description:
     %   Draws an independent current source between two coordinates in a Circuitikz
@@ -705,8 +705,8 @@
     %                                opposite side of the default.
     %   [<circuitikz options>]    — (Optional) Key-value options passed directly to the 
     %                                Circuitikz `I` element, e.g., `-*`, etc.
-    %   {<plus coords>}           — Coordinates of the positive terminal, e.g., `0,0`.
-    %   {<minus coords>}          — Coordinates of the negative terminal, e.g., `0,3`.
+    %   {<from coords>}           — Coordinates of the positive terminal, e.g., `0,0`.
+    %   {<to coords>}          — Coordinates of the negative terminal, e.g., `0,3`.
     %   {<label>}                 — Mathematical label to display near the arrow, 
     %                                e.g., `I_s`.
     %
@@ -733,19 +733,19 @@
     % Date: 05.08.2025
     % ----------------------------------------------------------------
 	% get coordinates
-	\coordinate (plus) at (#3);
-  	\coordinate (minus) at (#4);
+	\coordinate (from) at (#3);
+  	\coordinate (to) at (#4);
 
 	% put the current source with or without optional parameters
-	\IfNoValueTF{#2}{\draw (plus) to[cI] (minus);}{\draw (plus) to[cI,#2] (minus);}
+	\IfNoValueTF{#2}{\draw (from) to[cI] (to);}{\draw (from) to[cI,#2] (to);}
 
     % select side for arrow and label
     \IfBooleanTF{#1}{\def\side{-1}}{\def\side{1}}
 
   	% draw arrow and the label
   	\draw[-{Triangle[width=4.5pt, length=5pt]}] let
-		\p1 = (plus),
-		\p2 = (minus),
+		\p1 = (from),
+		\p2 = (to),
 		\p3 = ($(\p2)-(\p1)$),          % direction vector
 		\n1 = {veclen(\x3,\y3)/28.45},  % length of the vector (in cm)
 		% middle point
@@ -766,8 +766,8 @@
     % \V — Voltage Indicator
     %
     % Syntax:
-    %   \V*{<start coords>}{<end coords>}{<label>}
-    %   \V {<start coords>}{<end coords>}{<label>}
+    %   \V*{<from>}{<to>}{<label>}
+    %   \V {<from>}{<to>}{<label>}
     %
     % Description:
     %   Draws a voltahe between two coordinates and places a
@@ -779,8 +779,8 @@
     %                               label **below** the open element (`v=`).
     %                               If absent, the label is placed **above**
     %                               (`v^=`).
-    %   {<start coords>}         — Coordinates of the starting terminal, e.g., `0,0`.
-    %   {<end coords>}           — Coordinates of the ending terminal, e.g., `2,0`.
+    %   {<from>}         — Coordinates of the starting terminal, e.g., `0,0`.
+    %   {<to>}           — Coordinates of the ending terminal, e.g., `2,0`.
     %   {<label>}                — Voltage label content, in math mode without `$`.
     %
     % Behaviour:
@@ -805,14 +805,14 @@
     % --------------------------------------------------------------------------
 
     % get coordinates
-    \coordinate (plus) at (#2);
-    \coordinate (minus) at (#3);
+    \coordinate (from) at (#2);
+    \coordinate (to) at (#3);
     
     % draw the voltage
     \IfBooleanTF{#1}{
-        \Open[v=$#4$]{plus}{minus}
+        \Open[v=$#4$]{from}{to}
     }{
-        \Open[v^=$#4$]{plus}{minus}
+        \Open[v^=$#4$]{from}{to}
     }
 }
 
@@ -824,8 +824,8 @@
     % \I — Current Indicator
     %
     % Syntax:
-    %   \I*{<start coords>}{<end coords>}{<label>}
-    %   \I {<start coords>}{<end coords>}{<label>}
+    %   \I*{<from>}{<to>}{<label>}
+    %   \I {<from>}{<to>}{<label>}
     %
     % Description:
     %   Draws a current arrow between two coordinates and places a label
@@ -836,12 +836,12 @@
     %   * (star)                 — (Optional) If present, the arrow and label
     %                               are shifted to the opposite side relative
     %                               to the unstarred form.
-    %   {<start coords>}         — Coordinates of the starting point, e.g., `0,0`.
-    %   {<end coords>}           — Coordinates of the ending point, e.g., `2,0`.
+    %   {<from>}         — Coordinates of the starting point, e.g., `0,0`.
+    %   {<to>}           — Coordinates of the ending point, e.g., `2,0`.
     %   {<label>}                — Current label content, in math mode without `$`.
     %
     % Behaviour:
-    %   - Draws a straight arrow from `<start coords>` to `<end coords>` using
+    %   - Draws a straight arrow from `<from>` to `<to>` using
     %     a filled triangular arrowhead.
     %   - Label is positioned near the midpoint, shifted perpendicular to
     %     the arrow direction. Starred form mirrors the shift.
@@ -867,16 +867,16 @@
     % --------------------------------------------------------------------------
 
     % get coordinates
-	\coordinate (plus) at (#2);
-  	\coordinate (minus) at (#3);
+	\coordinate (from) at (#2);
+  	\coordinate (to) at (#3);
     
     % select side for arrow and label
     \IfBooleanTF{#1}{\def\side{-1}}{\def\side{1}}
 
      % draw arrow and the label
   	\draw[-{Triangle[width=4.5pt, length=5pt]}] let
-		\p1 = (plus),
-		\p2 = (minus),
+		\p1 = (from),
+		\p2 = (to),
         \p3 = ($(\p2)-(\p1)$),          % direction vector
 		\n1 = {veclen(\x3,\y3)/28.45},  % length of the vector (in cm)
 		% middle point
@@ -1007,16 +1007,16 @@
 
     
     % get coordinates
-	\coordinate (plus) at (#1);
-  	\coordinate (minus) at (#2);
+	\coordinate (from) at (#1);
+  	\coordinate (to) at (#2);
 
 	% put the resistor with or without optional parameters
-	\draw (plus) to[short, o-, nodes width=0.06] (minus);
+	\draw (from) to[short, o-, nodes width=0.06] (to);
 
     % put the label
     \path let
-        \p1 = (plus),
-        \p2 = (minus),
+        \p1 = (from),
+        \p2 = (to),
         \p3 = ($(\p1)-(\p2)$),          % direction vector
         \n1 = {veclen(\x3,\y3)/28.45},  % length of the vector (in cm)
         % shift 
@@ -1267,13 +1267,13 @@
     }
 
     % get coordinates
-	\coordinate (plus) at (#4);
-  	\coordinate (minus) at (#5);
+	\coordinate (from) at (#4);
+  	\coordinate (to) at (#5);
 
     % draw
     \draw let
-        \p1 = (plus),
-        \p2 = (minus),
+        \p1 = (from),
+        \p2 = (to),
         \p3 = ($(\p2)-(\p1)$),          % direction vector
         \n1 = {veclen(\x3,\y3)/28.45},  % length of the vector (in cm)
         \p4 = ($(\p1) + (#6*\y3/\n1, -#6*\x3/\n1)$),   % phase 1 start
@@ -1379,13 +1379,13 @@
     }
 
     % get coordinates
-	\coordinate (plus) at (#4);
-  	\coordinate (minus) at (#5);
+	\coordinate (from) at (#4);
+  	\coordinate (to) at (#5);
 
     % draw
     \draw let
-        \p1 = (plus),
-        \p2 = (minus),
+        \p1 = (from),
+        \p2 = (to),
         \p3 = ($(\p2)-(\p1)$),          % direction vector
         \n1 = {veclen(\x3,\y3)/28.45},  % length of the vector (in cm)
         \p4 = ($(\p1) + (0.4*\x3, 0.4*\y3) + (#6*\y3/\n1, -#6*\x3/\n1)$),
@@ -1491,13 +1491,13 @@
     }
 
     % get coordinates
-	\coordinate (plus) at (#4);
-  	\coordinate (minus) at (#5);
+	\coordinate (from) at (#4);
+  	\coordinate (to) at (#5);
 
     % draw
     \draw let
-        \p1 = (plus),
-        \p2 = (minus),
+        \p1 = (from),
+        \p2 = (to),
         \p3 = ($(\p2)-(\p1)$),          % direction vector
         \n1 = {veclen(\x3,\y3)/28.45},  % length of the vector (in cm)
         \p4 = ($(\p1) + (#6*\y3/\n1, -#6*\x3/\n1)$),   % phase 1 start
@@ -1574,13 +1574,13 @@
     \pgfmathsetmacro{\scaledlength}{#2 * 1.4}
     
     % get coordinates
-	\coordinate (plus) at (#4);
-  	\coordinate (minus) at (#5);
+	\coordinate (from) at (#4);
+  	\coordinate (to) at (#5);
 
-    % draw the plus sign
+    % draw the from sign
     \draw let
-        \p1 = (plus),
-        \p2 = (minus),
+        \p1 = (from),
+        \p2 = (to),
         \p3 = ($(\p2)-(\p1)$),          % direction vector
         \n1 = {veclen(\x3,\y3)/28.45},  % length of the vector (in cm)
         \p4 = ($(\p1) + (#6*\y3/\n1, -#6*\x3/\n1)$),   % phase 1 start
@@ -1600,13 +1600,13 @@
     % select bipole
     \IfSubStr{#3}{V}{
         \IfBooleanTF{#1}{
-            \Vs*[bipoles/length=\scaledlength cm]{P7}{P6}{#7}
-            \Vs*[bipoles/length=\scaledlength cm]{P2}{P1}{#8}
-            \Vs*[bipoles/length=\scaledlength cm]{P5}{P4}{#9}
+            \Vs*[bipoles/length=\scaledlength cm]{P6}{P7}{#7}
+            \Vs*[bipoles/length=\scaledlength cm]{P1}{P2}{#8}
+            \Vs*[bipoles/length=\scaledlength cm]{P4}{P5}{#9}
         }{
-            \Vs[bipoles/length=\scaledlength cm]{P7}{P6}{#7}
-            \Vs[bipoles/length=\scaledlength cm]{P2}{P1}{#8}
-            \Vs[bipoles/length=\scaledlength cm]{P5}{P4}{#9}}
+            \Vs[bipoles/length=\scaledlength cm]{P6}{P7}{#7}
+            \Vs[bipoles/length=\scaledlength cm]{P1}{P2}{#8}
+            \Vs[bipoles/length=\scaledlength cm]{P4}{P5}{#9}}
     }{
         \IfSubStr{#3}{I}{
             \IfBooleanTF{#1}{
@@ -1682,8 +1682,8 @@
     % --------------------------------------------------------------------------
 
     % get coordinates
-	\coordinate (plus) at (#4);
-  	\coordinate (minus) at (#5);
+	\coordinate (from) at (#4);
+  	\coordinate (to) at (#5);
 
     \IfNoValueTF{#3}{
         \pgfmathsetmacro{\gap}{0}
@@ -1698,8 +1698,8 @@
 
     % compute coordinates
     \draw let
-        \p1 = (plus),
-        \p2 = (minus),
+        \p1 = (from),
+        \p2 = (to),
         \p3 = ($(\p2)-(\p1)$),          % direction vector
         \n1 = {veclen(\x3,\y3)/28.45},  % length of the vector (in cm)
         \p4 = ($(\p1) + (#6*\y3/\n1*\swap, -#6*\x3/\n1*\swap)$),   % phase 1 start
