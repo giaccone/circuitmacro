@@ -528,11 +528,11 @@
         % middle point
         \p4 = ($0.5*(\p1)+0.5*(\p2)$),
         % shift 
-        \p5 = ($(\p4) + (0.5*\y3/\n1*\side, -0.5*\x3/\n1*\side)$),   % side shift (plus sign)
-        \p6 = ($(\p5) + (-0.4*\x3/\n1, -0.4*\y3/\n1)$),   % axis shift (plus sign)
-        \p7 = ($(\p4) + (0.8*\y3/\n1*\side, -0.8*\x3/\n1*\side)$)   % side shift (label)
+        \p5 = ($(\p4) + (0.25*\y3/\n1*\side, -0.25*\x3/\n1*\side)$),   % side shift (plus sign)
+        \p6 = ($(\p5) + (-0.6*\x3/\n1, -0.6*\y3/\n1)$),   % axis shift (plus sign)
+        \p7 = ($(\p4) + (0.75*\y3/\n1*\side, -0.75*\x3/\n1*\side)$)   % side shift (label)
     in
-        node at (\p6) [rotate=\n2] {\textbf{+}}
+        node at (\p6) [rotate=\n2] {\scriptsize \textbf{+}}
         node at (\p7) [] {$#5$};
 }
 
@@ -1399,7 +1399,10 @@
         (\p7) to[\bipole, \side=$#9$, bipoles/length=\scaledlength cm] (\p8)
         ($(\p1) + (#6*\y3/\n1, -#6*\x3/\n1)$) -- (\p7)
         ($(\p1) + (-#6*\y3/\n1, #6*\x3/\n1)$) -- (\p8)
-        (\p1) -- (\p5);
+        (\p1) -- (\p5)
+        (\p4) node[circ] {}
+        (\p5) node[circ] {}
+        (\p6) node[circ] {};
 }
 
 %----------------------------
